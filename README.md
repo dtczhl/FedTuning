@@ -5,7 +5,7 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 @article{fedtuning,
     author = {Huanle Zhang and Mi Zhang and Xin Liu and Prasant Mohapatra and Michael DeLucia},
     title = {Automatic Tuning of Federated Learning Hyper-Parameters from System Perspective},
-    journal = {	arXiv:2110.03061},
+    journal = {arXiv:2110.03061},
     year = {2021}
 }
 ```
@@ -14,7 +14,7 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
 
-**I am still reformatting our codes. Will finish it ASAP**
+**I am still reformatting our codes. Will finish it soon**
 
 ## Dataset Download and Preprocess
 

@@ -1,5 +1,5 @@
 # FedTuning
-Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please consider citing our paper if our codes are helpful to you.
+Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please consider citing our paper if our paper and codes are helpful to you.
 
 ```
 @article{fedtuning,

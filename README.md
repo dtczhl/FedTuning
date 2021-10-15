@@ -59,7 +59,7 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    
 2. FL training without FedTuning
     ```python:
-    python FedTuning/main.py --enable_fedtuning False --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
+    python FedTuning/main.py --enable_fedtuning False --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
     ```
    Required arguments:
    * --enable_fedtuning False

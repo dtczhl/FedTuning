@@ -142,14 +142,14 @@ class FLClientManager:
 
             total_samples = 0
             for client_id in client_ids:
-                total_samples += self.all_clients[client_id].get_length_of_samples()
+                total_samples += self.all_clients[client_id].get_number_of_samples()
 
             sd_global = temp_model.state_dict()
             for name, param in temp_model.named_parameters():
                 sd_global[name].zero_()
                 for client_id in client_ids:
                     sd_local = self.all_clients[client_id].get_model_state_dict()
-                    sd_global[name] += sd_local[name] * self.all_clients[client_id].get_length_of_samples() / total_samples
+                    sd_global[name] += sd_local[name] * self.all_clients[client_id].get_number_of_samples() / total_samples
 
         return sd_global
 

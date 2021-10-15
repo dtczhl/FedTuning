@@ -42,6 +42,34 @@ TODO...
 
 ## Experiments
 
+The algorithm of FedTuning is in FedTuning/FedTuning/FedTuningTuner.py
+
+1. FL training with FedTuning enabled
+    ```python:
+    python FedTuning/main.py --enable_fedtuning True --perference_time 0.33 --preference_computation 0.33 --preference_communication 0.33 --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
+    ```
+   Required arguments: 
+   * --enable_fedtuning True
+   * preferences on time, computation, and communication: --preference_time, --preference_computation, and --preference_communication
+   * model: --model. Supported models are under Model/. More models will be supported.
+   * target model accuracy: --target_model_accuracy when stop training
+   * dataset: --dataset. Now only support speech_command, more dataset will be supported
+   
+2. FL training without FedTuning
+    ```python:
+    python FedTuning/main.py --enable_fedtuning False --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
+    ```
+   Required arguments:
+   * --enable_fedtuning False
+   * --model
+   * --target_model_accuracy
+   * --dataset
+
+Results are saved to FedTuning/Result/. See the print output for the full filename. Results are saved in CSV file, with formats
+```plain
+#round_id,model_accuracy,number of participant (M),number of training pass (E),cost of each selected client
+```
+
 
 
 

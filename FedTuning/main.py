@@ -38,7 +38,17 @@ def parse_arguments():
         help='show this help message and exit'
     )
 
-    required.add_argument("--enable_fedtuning", help="whether enable fedtuning or not", type=bool, required=True)
+    def str2bool(v):
+        if isinstance(v, bool):
+            return v
+        if v.lower() in ('yes', 'true', 't', 'y', '1'):
+            return True
+        elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+            return False
+        else:
+            raise argparse.ArgumentTypeError('Boolean value expected.')
+
+    required.add_argument("--enable_fedtuning", help="whether enable fedtuning or not", type=str2bool, required=True)
     required.add_argument("--preference_time", help="time preference, "
                                                     "ignored if --enable_fedtuning == False",
                           type=float, default=0)

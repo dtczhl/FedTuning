@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
         # Message logging
         print(f'{datetime.datetime.now()} --- round {i_round}, model accuracy: {accuracy:.2f}, M: {M}, E: {E}, '
-              f'time cost: {round_time_cost}, computation cost: {round_communication_cost}, '
+              f'time cost: {round_time_cost}, computation cost: {round_computation_cost}, '
               f'communication cost: {round_communication_cost}')
         cost_str = ','.join(format(x, ".2f") for x in cost_arr)
         file_logger.write(message=f'{i_round},{accuracy:.2f},{M},{E},{cost_str}\n')

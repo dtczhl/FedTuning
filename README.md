@@ -23,7 +23,7 @@ Both use PyTorch 1.9.1 and Python 3.9.
 
 ### Google speech-to-command dataset
 
-1. download dataset, which is saved to FedTuning/Download/speech_command/.  
+1. download dataset, which is saved to Download/speech_command/.  
     ```python:
     python Dataset/speech_command/speech_command_download.py
     ```
@@ -32,12 +32,12 @@ Both use PyTorch 1.9.1 and Python 3.9.
     (1) separate clients' data for training, validation, and testing; 
     (2) transform audio clips to spectrograms; 
     (3) save spectrograms to jpg images. 
-    Preprocessed data are saved to FedTuning/Download/speech_command/_FedTuning/
+    Preprocessed data are saved to Download/speech_command/_FedTuning/
       ```python:
       python Dataset/speech_command/speech_command_preprocess.py
       ```
 
-Model hyper-parameters such as learning rate and batch size are defined in FedTuning/Dataset/speech_command/\_\_init\_\_.py
+Model hyper-parameters such as learning rate and batch size are defined Dataset/speech_command/\_\_init\_\_.py
 
 ### Other datasets
 
@@ -78,7 +78,7 @@ On each training round, the cost of each selected client is returned via the fol
 ```python:
 cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 ```
-We adopt the following to calculate the time overhead, computation overhead, and communication overhead. 
+We calculate time overhead, computation overhead, and communication overhead of a training round by
 ```python:
 # time, computation, and communication cost on this training round
 round_time_cost = max(cost_arr)

@@ -134,7 +134,7 @@ if __name__ == '__main__':
         # Get cost of the selected clients
         cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 
-        # time, computation, and communication cost
+        # time, computation, and communication cost on this training round
         round_time_cost = max(cost_arr)
         round_computation_cost = sum(cost_arr)
         round_communication_cost = len(cost_arr)

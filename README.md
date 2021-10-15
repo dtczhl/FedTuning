@@ -14,6 +14,11 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
 
+**TODO**:
+1. Reformatting codes, add comments and explanation
+2. Add result analysis scripts
+3. Support more datasets and models
+
 ## Dataset Download and Preprocess
 
 ### Google speech-to-command dataset
@@ -36,7 +41,6 @@ Model hyper-parameters such as learning rate and batch size are defined in FedTu
 
 ### Other datasets
 
-TODO...
 
 ## Experiments
 
@@ -63,14 +67,24 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --target_model_accuracy
    * --dataset
 
-Results are saved to Result/. See the print output for the full filename. Results are saved in CSV file, with formats
+Results are saved to Result/. See the print output for the full filename. Results are saved in CSV files, in the format of
 ```plain
 #round_id,model_accuracy,number of participant (M),number of training pass (E),cost of each selected client
 ```
 
 ## Formulation
 
-
+On each training round, the cost of each selected client is returned via the following statement (in FeTuning/main.py)
+```python:
+cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
+```
+We adopt the following to calculate the time overhead, computation overhead, and communication overhead. 
+```python:
+# time, computation, and communication cost on this training round
+round_time_cost = max(cost_arr)
+round_computation_cost = sum(cost_arr)
+round_communication_cost = len(cost_arr)
+```
 
 
 

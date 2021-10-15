@@ -137,7 +137,7 @@ if __name__ == '__main__':
         # time, computation, and communication cost
         round_time_cost = max(cost_arr)
         round_computation_cost = sum(cost_arr)
-        round_communication_cost = M
+        round_communication_cost = len(cost_arr)
 
         # Evaluate the server model performance using both validation set and testing set
         accuracy = FL_server.evaluate_model_performance(include_valid=True, include_test=True)
@@ -157,7 +157,10 @@ if __name__ == '__main__':
 
         # FedTuning decisions
         if enable_FedTuning:
-            M, E = fedTuningTuner.update(model_accuracy=accuracy, time_cost=round_time_cost, computation_cost=round_computation_cost, communication_cost=round_communication_cost)
+            M, E = fedTuningTuner.update(model_accuracy=accuracy,
+                                         time_cost=round_time_cost,
+                                         computation_cost=round_computation_cost,
+                                         communication_cost=round_communication_cost)
 
     print(f'Results are saved to {file_logger.get_file_path()}')
     file_logger.close()

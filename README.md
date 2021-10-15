@@ -14,8 +14,6 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
 
-**I am still reformatting our codes. Will finish it soon**
-
 ## Dataset Download and Preprocess
 
 ### Google speech-to-command dataset
@@ -42,7 +40,7 @@ TODO...
 
 ## Experiments
 
-The algorithm of FedTuning is in FedTuning/FedTuning/FedTuningTuner.py
+The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
 
 1. FL training with FedTuning enabled
     ```python:
@@ -65,10 +63,12 @@ The algorithm of FedTuning is in FedTuning/FedTuning/FedTuningTuner.py
    * --target_model_accuracy
    * --dataset
 
-Results are saved to FedTuning/Result/. See the print output for the full filename. Results are saved in CSV file, with formats
+Results are saved to Result/. See the print output for the full filename. Results are saved in CSV file, with formats
 ```plain
 #round_id,model_accuracy,number of participant (M),number of training pass (E),cost of each selected client
 ```
+
+## Formulation
 
 
 

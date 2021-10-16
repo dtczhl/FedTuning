@@ -56,6 +56,8 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * model: --model. Supported models are under Model/. More models will be supported.
    * target model accuracy: --target_model_accuracy when stop training
    * dataset: --dataset. Now only support speech_command, more dataset will be supported
+   * number of participants (M): --n_participant
+   * number of training passes (E): --n_training_pass
    
 2. FL training without FedTuning
     ```python:
@@ -65,7 +67,9 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --enable_fedtuning False
    * --model
    * --target_model_accuracy
-   * --dataset
+   * --dataset 
+   * number of participants (M): --n_participant
+   * number of training passes (E): --n_training_pass
 
 Results are saved to Result/. See the print output for the full filename. Results are saved in CSV files, in the format of
 ```plain

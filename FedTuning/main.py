@@ -82,6 +82,10 @@ if __name__ == '__main__':
     alpha = args.preference_time
     beta = args.preference_computation
     gamma = args.preference_communication
+    if not enable_FedTuning:
+        # ignore training preferences
+        alpha = beta = gamma = 0
+
     model_name = args.model
     dataset_name = args.dataset
     target_model_accuracy = args.target_model_accuracy

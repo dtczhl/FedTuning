@@ -68,8 +68,8 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --model
    * --target_model_accuracy
    * --dataset 
-   * number of participants (M): --n_participant
-   * number of training passes (E): --n_training_pass
+   * --n_participant
+   * --n_training_pass
 
 Results are saved to Result/. See the print output for the full filename. Results are saved in CSV files, in the format of
 ```plain

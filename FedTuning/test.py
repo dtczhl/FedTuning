@@ -168,22 +168,16 @@ if __name__ == '__main__':
         else:
             n_cur_consecutive_better = 0
 
+        eta_and_zeta_arr = [0] * 8
         if enable_FedTuning:
-            # Message logging
             eta_and_zeta_arr = fedTuningTuner.get_eta_and_zeta()
-            eta_and_zeta_str = ','.join(format(x, ".2f") for x in eta_and_zeta_arr)
-            print(f'{datetime.datetime.now()} --- round {i_round}, model accuracy: {accuracy:.2f}, '
-                  f'eta and zeta: {eta_and_zeta_str}, M: {M}, E: {E}, '
-                  f'compT: {round_compT}, transT: {round_transT}, compL: {round_compL}, transL: {round_transL}')
-            cost_str = ','.join(format(x, ".2f") for x in cost_arr)
-            file_logger.write(message=f'{i_round},{accuracy:.2f},{eta_and_zeta_str},{M},{E},{cost_str}\n')
-        else:
-            # Message logging
-            print(f'{datetime.datetime.now()} --- round {i_round}, model accuracy: {accuracy:.2f}, '
-                  f'M: {M}, E: {E}, '
-                  f'compT: {round_compT}, transT: {round_transT}, compL: {round_compL}, transL: {round_transL}')
-            cost_str = ','.join(format(x, ".2f") for x in cost_arr)
-            file_logger.write(message=f'{i_round},{accuracy:.2f},{M},{E},{cost_str}\n')
+        eta_and_zeta_str = ','.join(format(x, ".2f") for x in eta_and_zeta_arr)
+
+        print(f'{datetime.datetime.now()} --- round {i_round}, model accuracy: {accuracy:.2f}, '
+              f'eta and zeta: {eta_and_zeta_str}, M: {M}, E: {E}, '
+              f'compT: {round_compT}, transT: {round_transT}, compL: {round_compL}, transL: {round_transL}')
+        cost_str = ','.join(format(x, ".2f") for x in cost_arr)
+        file_logger.write(message=f'{i_round},{accuracy:.2f},{eta_and_zeta_str},{M},{E},{cost_str}\n')
 
         # FedTuning decisions
         if enable_FedTuning:

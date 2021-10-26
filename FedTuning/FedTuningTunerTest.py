@@ -61,67 +61,55 @@ class FedTuningTunerTest:
                     + self.gamma * (self.S_cur.compL - self.S_prv.compL) / self.S_cur.compL \
                     + self.delta * (self.S_cur.transT - self.S_cur.transL) / self.S_cur.transL
 
-                if g > 0:
-                    # bad decision, revert
-
-                    print('Bad Decision')
-
-                    next_M = self.S_prv.M
-                    next_E = self.S_prv.E
-
-                    # penalize the etas and zetas favoring for those bad decisions
-                    if self.S_cur.M > self.S_prv.M:
-                        self.eta_t /= 2
-                        self.eta_q /= 2
-                    else:
-                        self.eta_z /= 2
-                        self.eta_v /= 2
-                    if self.S_cur.E > self.S_prv.E:
-                        self.zeta_q /= 2
-                        self.zeta_v /= 2
-                    else:
-                        self.zeta_t /= 2
-                        self.zeta_z /= 2
-
+                # only update when they move towards preference
+                if self.S_cur.M > self.S_prv.M:
+                    self.eta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
+                    self.eta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
+                    if g > 0:
+                        self.eta_z *= 10
+                        self.eta_v *= 10
                 else:
-                    # only update when they move towards preference
-                    if self.S_cur.M > self.S_prv.M:
-                        self.eta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
-                        self.eta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
-                    else:
-                        self.eta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
-                        self.eta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
+                    self.eta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
+                    self.eta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
+                    if g > 0:
+                        self.eta_t *= 10
+                        self.eta_q *= 10
+                if self.S_cur.E > self.S_prv.E:
+                    self.zeta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
+                    self.zeta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
+                    if g > 0:
+                        self.zeta_t *= 10
+                        self.zeta_z *= 10
+                else:
+                    self.zeta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
+                    self.zeta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
+                    if g > 0:
+                        self.zeta_q *= 10
+                        self.zeta_v *= 10
 
-                    if self.S_cur.E > self.S_prv.E:
-                        self.zeta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
-                        self.zeta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
-                    else:
-                        self.zeta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
-                        self.zeta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
+                delta_M = self.alpha * self.eta_t * abs(self.S_cur.compT - self.S_prv.compT) / self.S_cur.compT \
+                          + self.beta * self.eta_q * abs(self.S_cur.transT - self.S_prv.transT) / self.S_cur.transT \
+                          - self.gamma * self.eta_z * abs(self.S_cur.compL - self.S_prv.compL) / self.S_cur.compL \
+                          - self.delta * self.eta_v * abs(self.S_cur.transL - self.S_prv.transL) / self.S_cur.transL
 
-                    delta_M = self.alpha * self.eta_t * abs(self.S_cur.compT - self.S_prv.compT) / self.S_cur.compT \
-                              + self.beta * self.eta_q * abs(self.S_cur.transT - self.S_prv.transT) / self.S_cur.transT \
-                              - self.gamma * self.eta_z * abs(self.S_cur.compL - self.S_prv.compL) / self.S_cur.compL \
-                              - self.delta * self.eta_v * abs(self.S_cur.transL - self.S_prv.transL) / self.S_cur.transL
+                delta_E = -self.alpha * self.zeta_t * abs(self.S_cur.compT - self.S_prv.compT) / self.S_cur.compT \
+                          + self.beta * self.zeta_q * abs(self.S_cur.transT - self.S_prv.transT) / self.S_cur.transT \
+                          - self.gamma * self.zeta_z * abs(self.S_cur.compL - self.S_prv.compL) / self.S_cur.compL \
+                          + self.delta * self.zeta_v * abs(self.S_cur.transL - self.S_prv.transL) / self.S_cur.transL
 
-                    delta_E = -self.alpha * self.zeta_t * abs(self.S_cur.compT - self.S_prv.compT) / self.S_cur.compT \
-                              + self.beta * self.zeta_q * abs(self.S_cur.transT - self.S_prv.transT) / self.S_cur.transT \
-                              - self.gamma * self.zeta_z * abs(self.S_cur.compL - self.S_prv.compL) / self.S_cur.compL \
-                              + self.delta * self.zeta_v * abs(self.S_cur.transL - self.S_prv.transL) / self.S_cur.transL
+                if delta_M > 0:
+                    next_M = self.S_cur.M + 1
+                    next_M = min(next_M, self.M_max)
+                else:
+                    next_M = self.S_cur.M - 1
+                    next_M = max(next_M, self.M_min)
 
-                    if delta_M > 0:
-                        next_M = self.S_cur.M + 1
-                        next_M = min(next_M, self.M_max)
-                    else:
-                        next_M = self.S_cur.M - 1
-                        next_M = max(next_M, self.M_min)
-
-                    if delta_E > 0:
-                        next_E = self.S_cur.E + 1
-                        next_E = min(float(next_E), self.E_max)
-                    else:
-                        next_E = self.S_cur.E - 1
-                        next_E = max(float(next_E), self.E_min)
+                if delta_E > 0:
+                    next_E = self.S_cur.E + 1
+                    next_E = min(float(next_E), self.E_max)
+                else:
+                    next_E = self.S_cur.E - 1
+                    next_E = max(float(next_E), self.E_min)
             else:
                 # skip the first training rounds
                 self.n_round_skipped -= 1

@@ -18,6 +18,7 @@ Both use PyTorch 1.9.1 and Python 3.9.
 1. Reformatting codes, add comments and explanation
 2. Add result analysis scripts
 3. Support more datasets and models
+4. I am refining our algorithm
 
 ## Dataset Download and Preprocess
 
@@ -89,6 +90,15 @@ round_time_cost = max(cost_arr)
 round_computation_cost = sum(cost_arr)
 round_communication_cost = len(cost_arr)
 ```
+
+## Result
+
+Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
+
+| alpha | beta | gamma | delta | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |
+| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+|  -  |   -   |   -   |   -   | 2.10            | 5.02         | 12.42        |  100.44        |    20    |   20  |   -  |
+
 
 
 

@@ -1,5 +1,5 @@
 """
-    Under Work
+    Visualize decision trajectories
 """
 
 import datetime
@@ -16,11 +16,9 @@ import numpy as np
 
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, trace id
-    (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 2),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.4, 0.1, 0.1, 0.4, 1)
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 21),  # 1
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 11),  # 5
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1),   # 10
 ]
 
 # --- End of Configuration ---

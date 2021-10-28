@@ -32,6 +32,9 @@ class FedTuningTunerTest:
         # skip the first training rounds
         self.n_round_skipped = 1
 
+        # gain
+        self.gain = 5
+
         # FL settings
         self.S_cur = FLSetting()  # Current FL hyper-parameter set
         self.S_cur.M = self.initial_M
@@ -66,26 +69,26 @@ class FedTuningTunerTest:
                     self.eta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
                     self.eta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
                     if g > 0:
-                        self.eta_z *= 10
-                        self.eta_v *= 10
+                        self.eta_z *= self.gain
+                        self.eta_v *= self.gain
                 else:
                     self.eta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
                     self.eta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
                     if g > 0:
-                        self.eta_t *= 10
-                        self.eta_q *= 10
+                        self.eta_t *= self.gain
+                        self.eta_q *= self.gain
                 if self.S_cur.E > self.S_prv.E:
                     self.zeta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
                     self.zeta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
                     if g > 0:
-                        self.zeta_t *= 10
-                        self.zeta_z *= 10
+                        self.zeta_t *= self.gain
+                        self.zeta_z *= self.gain
                 else:
                     self.zeta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
                     self.zeta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
                     if g > 0:
-                        self.zeta_q *= 10
-                        self.zeta_v *= 10
+                        self.zeta_q *= self.gain
+                        self.zeta_v *= self.gain
 
                 delta_M = self.alpha * self.eta_t * abs(self.S_cur.compT - self.S_prv.compT) / self.S_cur.compT \
                           + self.beta * self.eta_q * abs(self.S_cur.transT - self.S_prv.transT) / self.S_cur.transT \

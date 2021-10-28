@@ -16,7 +16,11 @@ import numpy as np
 
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, trace id
-    (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1)
+    (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 2),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.4, 0.1, 0.1, 0.4, 1)
 ]
 
 # --- End of Configuration ---
@@ -56,9 +60,9 @@ for trace_info in trace_infos:
             line_fields = line_data.strip().split(',')
             round_id = int(line_fields[0])
             model_accuracy = float(line_fields[1])
-            M = int(line_fields[2])
-            E = float(line_fields[3])
-            eta_zeta_arr = line_fields[4:12]
+            eta_zeta_arr = line_fields[2:10]
+            M = int(line_fields[10])
+            E = float(line_fields[11])
             cost_arr = [float(x) for x in line_fields[12:]]
 
             assert len(cost_arr) == M
@@ -73,7 +77,8 @@ for trace_info in trace_infos:
     compL *= model_complexity[dataset_name + '__' + model_name][0]
     transL *= model_complexity[dataset_name + '__' + model_name][1]
 
-    print(f'alpha: {alpha}, beta: {beta}, gamma: {gamma}, delta: {delta} | '
+    print(f'dataset: {dataset_name}, model: {model_name}, trace_id: {trace_id} | '
+          f'alpha: {alpha}, beta: {beta}, gamma: {gamma}, delta: {delta} | '
           f'CompT (10^12): {compT/10**12:.2f}, TransT (10^6): {transT/10**6:.2f}, '
           f'CompL (10^12): {compL/10**12:.2f}, TransL (10^6): {transL/10**6:.2f} | '
           f'final M: {M}, final E: {E}')

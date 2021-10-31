@@ -11,13 +11,14 @@ import copy
 import argparse
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 # ------ Configurations ------
 
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, trace id
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 21),  # 1
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 11),  # 5
+    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 21),  # 1
+    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 11),  # 5
     (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1),   # 10
 ]
 
@@ -52,6 +53,9 @@ for trace_info in trace_infos:
     compL = 0
     transL = 0
 
+    M_trajectory = []
+    E_trajectory = []
+
     with open(os.path.join(project_dir, 'Result', filename)) as f_in:
         while line_data := f_in.readline():
 
@@ -63,12 +67,24 @@ for trace_info in trace_infos:
             E = float(line_fields[11])
             cost_arr = [float(x) for x in line_fields[12:]]
 
+            M_trajectory.append(M)
+            E_trajectory.append(E)
+
             assert len(cost_arr) == M
 
             compT += max(cost_arr)
             transT += 1.0
             compL += sum(cost_arr)
             transL += len(cost_arr)
+
+    X_list = np.arange(len(M_trajectory))
+    plt.plot(X_list, M_trajectory)
+    plt.plot(X_list, E_trajectory)
+    plt.legend(['M', 'E'])
+    plt.xlabel('Traing round')
+    plt.show()
+
+    exit()
 
     compT *= model_complexity[dataset_name + '__' + model_name][0]
     transT *= model_complexity[dataset_name + '__' + model_name][1]

@@ -4,7 +4,7 @@ import copy
 class FedTuningTunerTest:
 
     def __init__(self, *, alpha: float, beta: float, gamma: float, delta: float, initial_M: int, initial_E: float,
-                 M_min: int, M_max: int, E_min: float, E_max: float):
+                 M_min: int, M_max: int, E_min: float, E_max: float, penalty: float):
         self.alpha = alpha
         self.beta = beta
         self.gamma = gamma
@@ -15,32 +15,28 @@ class FedTuningTunerTest:
         self.M_max = M_max
         self.E_min = E_min
         self.E_max = E_max
+        self.penalty = penalty
 
-        large_number = 10 ** 6
-        self.eta_t = large_number
-        self.eta_q = large_number
-        self.eta_z = large_number
-        self.eta_v = large_number
-        self.zeta_t = large_number
-        self.zeta_q = large_number
-        self.zeta_z = large_number
-        self.zeta_v = large_number
-
-        # self.current_M = self.initial_M
-        # self.current_E = self.initial_E
+        self.initial_number = 10 ** 9
+        self.eta_t = self.initial_number
+        self.eta_q = self.initial_number
+        self.eta_z = self.initial_number
+        self.eta_v = self.initial_number
+        self.zeta_t = self.initial_number
+        self.zeta_q = self.initial_number
+        self.zeta_z = self.initial_number
+        self.zeta_v = self.initial_number
 
         # skip the first training rounds
         self.n_round_skipped = 1
-
-        # gain
-        self.gain = 5
 
         # FL settings
         self.S_cur = FLSetting()  # Current FL hyper-parameter set
         self.S_cur.M = self.initial_M
         self.S_cur.E = self.initial_E
 
-        self.S_prv = FLSetting()  # Previous FL hyper-parameter set
+        self.S_prv = FLSetting()        # Previous FL hyper-parameter set
+        self.S_prv_save = FLSetting()   # Save Previous FL for updating eta and zeta
 
         # decision only made when accuracy is improved by at least eps_accuracy
         self.eps_accuracy = 0.01
@@ -66,29 +62,29 @@ class FedTuningTunerTest:
 
                 # only update when they move towards preference
                 if self.S_cur.M > self.S_prv.M:
-                    self.eta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
-                    self.eta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
+                    self.eta_t = abs(self.S_cur.compT - self.S_prv.compT) / abs(self.S_prv.compT - self.S_prv_save.compT)
+                    self.eta_q = abs(self.S_cur.transT - self.S_prv.transT) / abs(self.S_prv.transT - self.S_prv_save.transT)
                     if g > 0:
-                        self.eta_z *= self.gain
-                        self.eta_v *= self.gain
+                        self.eta_z *= self.penalty
+                        self.eta_v *= self.penalty
                 else:
-                    self.eta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
-                    self.eta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
+                    self.eta_z = abs(self.S_cur.compL - self.S_prv.compL) / abs(self.S_prv.compL - self.S_prv_save.compL)
+                    self.eta_v = abs(self.S_cur.transL - self.S_prv.transL) / abs(self.S_prv.transL - self.S_prv_save.transL)
                     if g > 0:
-                        self.eta_t *= self.gain
-                        self.eta_q *= self.gain
+                        self.eta_t *= self.penalty
+                        self.eta_q *= self.penalty
                 if self.S_cur.E > self.S_prv.E:
-                    self.zeta_q = abs(self.S_cur.transT - self.S_prv.transT) / self.S_prv.transT
-                    self.zeta_v = abs(self.S_cur.transL - self.S_prv.transL) / self.S_prv.transL
+                    self.zeta_q = abs(self.S_cur.transT - self.S_prv.transT) / abs(self.S_prv.transT - self.S_prv_save.transT)
+                    self.zeta_v = abs(self.S_cur.transL - self.S_prv.transL) / abs(self.S_prv.transL - self.S_prv_save.transL)
                     if g > 0:
-                        self.zeta_t *= self.gain
-                        self.zeta_z *= self.gain
+                        self.zeta_t *= self.penalty
+                        self.zeta_z *= self.penalty
                 else:
-                    self.zeta_t = abs(self.S_cur.compT - self.S_prv.compT) / self.S_prv.compT
-                    self.zeta_z = abs(self.S_cur.compL - self.S_prv.compL) / self.S_prv.compL
+                    self.zeta_t = abs(self.S_cur.compT - self.S_prv.compT) / abs(self.S_prv.compT - self.S_prv_save.compT)
+                    self.zeta_z = abs(self.S_cur.compL - self.S_prv.compL) / abs(self.S_prv.compL - self.S_prv_save.compL)
                     if g > 0:
-                        self.zeta_q *= self.gain
-                        self.zeta_v *= self.gain
+                        self.zeta_q *= self.penalty
+                        self.zeta_v *= self.penalty
 
                 delta_M = self.alpha * self.eta_t * abs(self.S_cur.compT - self.S_prv.compT) / self.S_cur.compT \
                           + self.beta * self.eta_q * abs(self.S_cur.transT - self.S_prv.transT) / self.S_cur.transT \
@@ -119,10 +115,12 @@ class FedTuningTunerTest:
 
             self.S_cur.model_accuracy = model_accuracy
 
+            self.S_prv_save = copy.deepcopy(self.S_prv)
             self.S_prv = copy.deepcopy(self.S_cur)
             self.S_cur = FLSetting()
             self.S_cur.M = next_M
             self.S_cur.E = next_E
+
 
         return next_M, next_E
 

@@ -25,14 +25,15 @@ model_complexity = {
 }
 
 def read_trace(trace_info):
-    enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, trace_id = trace_info
+    enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, penalty, trace_id = trace_info
     E_str = f'{initial_E:.2f}'.replace('.', '_')
     alpha_str = f'{alpha:.2f}'.replace('.', '_')
     beta_str = f'{beta:.2f}'.replace('.', '_')
     gamma_str = f'{gamma:.2f}'.replace('.', '_')
     delta_str = f'{delta:.2f}'.replace('.', '_')
+    penalty_str = f'{penalty:.2f}'.replace('.', '_')
     filename = f'fedtuning_{enable}__{dataset_name}__{model_name}__M_{int(initial_M)}__E_{E_str}__' \
-               f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__delta_{delta_str}__{trace_id}.csv'
+               f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__delta_{delta_str}__penalty_{penalty_str}__{trace_id}.csv'
 
     ret = []
 
@@ -64,6 +65,6 @@ def read_trace(trace_info):
 
 if __name__ == '__main__':
 
-    info = (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 21)
+    info = (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1)
     file_stat = read_trace(trace_info=info)
     print(file_stat)

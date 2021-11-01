@@ -1,5 +1,5 @@
 """
-    Visualize decision trajectories
+    Visualize decision trajectories of M and E
 """
 
 import datetime
@@ -16,10 +16,8 @@ import matplotlib.pyplot as plt
 # ------ Configurations ------
 
 trace_infos = [
-    # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, trace id
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 21),  # 1
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 11),  # 5
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1),   # 10
+    # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1, 1),  # 1
 ]
 
 # --- End of Configuration ---
@@ -38,14 +36,15 @@ project_dir = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(project_dir)
 
 for trace_info in trace_infos:
-    enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, trace_id = trace_info
+    enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, penalty, trace_id = trace_info
     E_str = f'{initial_E:.2f}'.replace('.', '_')
     alpha_str = f'{alpha:.2f}'.replace('.', '_')
     beta_str = f'{beta:.2f}'.replace('.', '_')
     gamma_str = f'{gamma:.2f}'.replace('.', '_')
     delta_str = f'{delta:.2f}'.replace('.', '_')
+    penalty_str = f'{penalty:.2f}'.replace('.', '_')
     filename = f'fedtuning_{enable}__{dataset_name}__{model_name}__M_{int(initial_M)}__E_{E_str}__' \
-               f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__delta_{delta_str}__{trace_id}.csv'
+               f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__delta_{delta_str}__penalty_{penalty_str}__{trace_id}.csv'
     # read file data
 
     compT = 0
@@ -77,23 +76,11 @@ for trace_info in trace_infos:
             compL += sum(cost_arr)
             transL += len(cost_arr)
 
+    plt.figure(1)
     X_list = np.arange(len(M_trajectory))
     plt.plot(X_list, M_trajectory)
     plt.plot(X_list, E_trajectory)
     plt.legend(['M', 'E'])
-    plt.xlabel('Traing round')
+    plt.xlabel('Training round')
     plt.show()
-
-    exit()
-
-    compT *= model_complexity[dataset_name + '__' + model_name][0]
-    transT *= model_complexity[dataset_name + '__' + model_name][1]
-    compL *= model_complexity[dataset_name + '__' + model_name][0]
-    transL *= model_complexity[dataset_name + '__' + model_name][1]
-
-    print(f'dataset: {dataset_name}, model: {model_name}, trace_id: {trace_id} | '
-          f'alpha: {alpha}, beta: {beta}, gamma: {gamma}, delta: {delta} | '
-          f'CompT (10^12): {compT/10**12:.2f}, TransT (10^6): {transT/10**6:.2f}, '
-          f'CompL (10^12): {compL/10**12:.2f}, TransL (10^6): {transL/10**6:.2f} | '
-          f'final M: {M}, final E: {E}')
 

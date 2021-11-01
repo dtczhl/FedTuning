@@ -60,7 +60,7 @@ def read_trace(trace_info):
             ret.append(line_stat)
 
     ret = np.array(ret)
-    return ret
+    return ret, filename
 
 
 if __name__ == '__main__':

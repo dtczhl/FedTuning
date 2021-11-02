@@ -10,15 +10,11 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 }
 ```
 
+**Note**: we re-design our algorithm, which shows better results. We will update our arXiv paper ASAP.
 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
 
-**TODO**:
-1. Reformatting codes, add comments and explanation
-2. Add result analysis scripts
-3. Support more datasets and models
-4. I am refining our algorithm
 
 ## Dataset Download and Preprocess
 
@@ -42,6 +38,7 @@ Model hyper-parameters such as learning rate and batch size are defined Dataset/
 
 ### Other datasets
 
+TODO 
 
 ## Experiments
 
@@ -49,16 +46,19 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
 
 1. FL training with FedTuning enabled
     ```python:
-    python FedTuning/main.py --enable_fedtuning True --perference_time 0.33 --preference_computation 0.33 --preference_communication 0.33 --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
+    python FedTuning/main.py --enable_fedtuning True --alpha 0.25 --beta 0.25 --gamma 0.25 --delta 0.25 --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
     ```
    Required arguments: 
    * --enable_fedtuning True
-   * preferences on time, computation, and communication: --preference_time, --preference_computation, and --preference_communication
-   * model: --model. Supported models are under Model/. More models will be supported.
-   * target model accuracy: --target_model_accuracy when stop training
-   * dataset: --dataset. Now only support speech_command, more dataset will be supported
-   * number of participants (M): --n_participant
-   * number of training passes (E): --n_training_pass
+   * --alpha: preference on computation time (CompT)
+   * --beta: preference on transmission time (TransT)
+   * --gamma: preference on computation load (CompL)
+   * --delta: preference on transmission load (TransL)
+   * --model: model name. Supported models are under Model/. More models will be supported.
+   * --target_model_accuracy. Stop training when trained model has accuracy higher than the target accuracy
+   * --dataset: dataset name. Now only support speech_command, more dataset will be supported
+   * --n_participant: number of participants (M)
+   * --n_training_pass: number of training passes (E) 
    
 2. FL training without FedTuning
     ```python:
@@ -72,14 +72,19 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --n_participant
    * --n_training_pass
 
+Optional arguments
+* --n_consecutive_better: number of trained model is consecutively better than the target accuracy before stop training. Default 5.
+* --trace_id: number suffix the filename for results. Default 1.
+* --penalty: penalty factor when bad decision occurs. Still testing the usefulness of it. Default 1. 
+
 Results are saved to Result/. See the print output for the full filename. Results are saved in CSV files, in the format of
 ```plain
-#round_id,model_accuracy,number of participant (M),number of training pass (E),cost of each selected client
+#round_id,model_accuracy,eta_t,eta_q,eta_z,eta_v,zeta_t,zeta_q,zeta_z,zeta_v,number of participant (M),number of training pass (E),cost of each selected client
 ```
 
 ## Formulation
 
-On each training round, the cost of each selected client is returned via the following statement (in FeTuning/test.py)
+On each training round, the cost of each selected client is returned via the following statement (in FeTuning/main.py)
 ```python:
 cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 ```
@@ -92,9 +97,13 @@ round_compL = C_3 * sum(cost_arr)
 round_transL = C_4 * len(cost_arr)
 ```
 
-Without losing generality, we can take C_1, C_2, C_3, and C_4 to 1. 
+Without losing generality, we assign C_1, C_2, C_3, and C_4 to 1. 
 
-## Result
+## Result Processing
+
+TODO
+
+## Result Summary
 
 
 Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8

@@ -20,8 +20,7 @@ from ServerClient.FLServer import FLServer
 from ServerClient.FLClientManager import FLClientManager
 from ClientSelection.RandomSelection import RandomSelection
 from Helper.FileLogger import FileLogger
-from FedTuning.FedTuningTunerTest import FedTuningTunerTest
-
+from FedTuning.FedTuningTuner_backup import FedTuningTuner
 
 def parse_arguments():
     parser = argparse.ArgumentParser(
@@ -50,30 +49,26 @@ def parse_arguments():
             raise argparse.ArgumentTypeError('Boolean value expected.')
 
     required.add_argument("--enable_fedtuning", help="whether enable fedtuning or not", type=str2bool, required=True)
-    required.add_argument("--alpha", help="computation time preference, "
-                                          "ignored if --enable_fedtuning == False [>=0]",
+    required.add_argument("--preference_time", help="time preference, "
+                                                    "ignored if --enable_fedtuning == False",
                           type=float, default=0)
-    required.add_argument("--beta", help="transmission time preference, "
-                                         "ignored if --enable_fedtuning == False [>=0]",
+    required.add_argument("--preference_computation", help="computation preference, "
+                                                           "ignored if --enable_fedtuning == False",
                           type=float, default=0)
-    required.add_argument("--gamma", help="computation load preference, "
-                                          "ignored if --enable_fedtuning == False [>=0]",
-                          type=float, default=0)
-    required.add_argument("--delta", help="transmission load preference, "
-                                          "ignored if --enable_fedtuning == False [>=0]",
+    required.add_argument("--preference_communication", help="communication preference, "
+                                                             "ignored if --enable_fedtuning == False",
                           type=float, default=0)
     required.add_argument("--model", help="model for training", type=str, required=True)
     required.add_argument("--dataset", help="dataset for training", type=str, required=True)
     required.add_argument("--target_model_accuracy", help='target model accuracy, e.g., 0.8.', type=float, required=True)
-    required.add_argument("--n_participant", help='number of participants (M). [>=1]', type=int, required=True)
-    required.add_argument("--n_training_pass", help="number of training passes (E), support fraction, e.g., 1.2. [>0]",
+    required.add_argument("--n_participant", help='number of participants (M)', type=int, required=True)
+    required.add_argument("--n_training_pass", help="number of training passes (E), support fraction, e.g., 1.2",
                           type=float, required=True)
 
     optional.add_argument("--n_consecutive_better",
                           help='stop training if model accuracy is __n_consecutive_better times better than '
-                               'the __target_model_accuracy [>=1]', type=int, default=5)
+                               'the __target_model_accuracy', type=int, default=5)
     optional.add_argument("--trace_id", help='appending __trace_id to the logged file', type=int, default=1)
-    optional.add_argument("--penalty", help='penalizing if bad decision. [>=1]', type=float, default=1.0)
     # parser._action_groups.append(optional)
     return parser.parse_args()
 
@@ -84,13 +79,12 @@ if __name__ == '__main__':
 
     # required arguments
     enable_FedTuning = args.enable_fedtuning
-    alpha = args.alpha
-    beta = args.beta
-    gamma = args.gamma
-    delta = args.delta
+    alpha = args.preference_time
+    beta = args.preference_computation
+    gamma = args.preference_communication
     if not enable_FedTuning:
         # ignore training preferences
-        alpha = beta = gamma = delta = 0
+        alpha = beta = gamma = 0
 
     model_name = args.model
     dataset_name = args.dataset
@@ -100,33 +94,18 @@ if __name__ == '__main__':
     # optional arguments
     n_consecutive_better = args.n_consecutive_better
     trace_id = args.trace_id
-    penalty = args.penalty
-
-    # Check values
-    assert alpha >= 0
-    assert beta >= 0
-    assert gamma >= 0
-    assert delta >= 0
-    assert M >= 1
-    assert E > 0
-    assert n_consecutive_better >= 1
-    assert penalty >= 1
-
-    C_1 = C_2 = C_3 = C_4 = 1
 
     E_str = f'{E:.2f}'.replace('.', '_')
     alpha_str = f'{alpha:.2f}'.replace('.', '_')
     beta_str = f'{beta:.2f}'.replace('.', '_')
     gamma_str = f'{gamma:.2f}'.replace('.', '_')
-    delta_str = f'{delta:.2f}'.replace('.', '_')
-    penalty_str = f'{penalty:.2f}'.replace('.', '_')
     write_filename = f'{project_dir}/Result/fedtuning_{enable_FedTuning}__{dataset_name}__{model_name}__M_{M}__E_{E_str}__' \
-                     f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__delta_{delta_str}__penalty_{penalty_str}__{trace_id}.csv'
+                     f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__{trace_id}.csv'
     file_logger = FileLogger(file_path=write_filename)
 
-    print(f'FedTuning enabled: {enable_FedTuning}, alpha={alpha}, beta={beta}, gamma={gamma}, delta={delta}'
+    print(f'FedTuning enabled: {enable_FedTuning}, alpha={alpha}, beta={beta}, gamma={gamma},'
           f'\n\tmodel={model_name}, dataset={dataset_name}, target_model_accuracy={target_model_accuracy}, M={M}, E={E}'
-          f'\n\tn_consecutive_better={n_consecutive_better}, penalty={penalty}, trace_id={trace_id}')
+          f'\n\tn_consecutive_better={n_consecutive_better}, trace_id={trace_id}')
     print(f'Saving results to {write_filename}')
 
     FL_client_manager = FLClientManager(model_name=model_name, dataset_name=dataset_name)
@@ -140,8 +119,8 @@ if __name__ == '__main__':
     if enable_FedTuning:
         # we set minimum of E to 1 in FedTuning
         E_min = 1
-        fedTuningTuner = FedTuningTunerTest(alpha=alpha, beta=beta, gamma=gamma, delta=delta, initial_M=M, initial_E=E,
-                                            M_min=M_min, M_max=M_max, E_min=E_min, E_max=E_max, penalty=penalty)
+        fedTuningTuner = FedTuningTuner(alpha=alpha, beta=beta, gamma=gamma, initial_M=M, initial_E=E,
+                                        M_min=M_min, M_max=M_max, E_min=E_min, E_max=E_max)
 
     i_round = 0  # index of training rounds
     n_cur_consecutive_better = 0  # number of times the model is higher than the target accuracy
@@ -169,40 +148,33 @@ if __name__ == '__main__':
         # Get cost of the selected clients
         cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 
-        # computation time, transmission time, computation load, and transmission load on this training round
-        round_compT = C_1 * max(cost_arr)
-        round_transT = C_2 * 1.0
-        round_compL = C_3 * sum(cost_arr)
-        round_transL = C_4 * len(cost_arr)
+        # time, computation, and communication cost on this training round
+        round_time_cost = max(cost_arr)
+        round_computation_cost = sum(cost_arr)
+        round_communication_cost = len(cost_arr)
 
         # Evaluate the server model performance using both validation set and testing set
         accuracy = FL_server.evaluate_model_performance(include_valid=True, include_test=True)
 
-        # number of consecutive times that model accuracy higher than a target
+        # record number of consecutive times that model accuracy higher than a target
         if accuracy >= target_model_accuracy:
             n_cur_consecutive_better += 1
         else:
             n_cur_consecutive_better = 0
 
-        # hyper-parameters, for debugging only
-        eta_and_zeta_arr = [0] * 8
-        if enable_FedTuning:
-            eta_and_zeta_arr = fedTuningTuner.get_eta_and_zeta()
-        eta_and_zeta_str = ','.join(format(x, ".2f") for x in eta_and_zeta_arr)
-
-        print(f'{datetime.datetime.now()} --- round {i_round}, model accuracy: {accuracy:.2f}, '
-              f'eta and zeta: {eta_and_zeta_str}, M: {M}, E: {E}, '
-              f'compT: {round_compT}, transT: {round_transT}, compL: {round_compL}, transL: {round_transL}')
+        # Message logging
+        print(f'{datetime.datetime.now()} --- round {i_round}, model accuracy: {accuracy:.2f}, M: {M}, E: {E}, '
+              f'time cost: {round_time_cost}, computation cost: {round_computation_cost}, '
+              f'communication cost: {round_communication_cost}')
         cost_str = ','.join(format(x, ".2f") for x in cost_arr)
-        file_logger.write(message=f'{i_round},{accuracy:.2f},{eta_and_zeta_str},{M},{E},{cost_str}\n')
+        file_logger.write(message=f'{i_round},{accuracy:.2f},{M},{E},{cost_str}\n')
 
         # FedTuning decisions
         if enable_FedTuning:
             M, E = fedTuningTuner.update(model_accuracy=accuracy,
-                                         compT=round_compT,
-                                         transT=round_transT,
-                                         compL=round_compL,
-                                         transL=round_transL)
+                                         time_cost=round_time_cost,
+                                         computation_cost=round_computation_cost,
+                                         communication_cost=round_communication_cost)
 
     print(f'Results are saved to {file_logger.get_file_path()}')
     file_logger.close()

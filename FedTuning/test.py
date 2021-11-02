@@ -112,6 +112,8 @@ if __name__ == '__main__':
     assert n_consecutive_better >= 1
     assert penalty >= 1
 
+    C_1 = C_2 = C_3 = C_4 = 1
+
     E_str = f'{E:.2f}'.replace('.', '_')
     alpha_str = f'{alpha:.2f}'.replace('.', '_')
     beta_str = f'{beta:.2f}'.replace('.', '_')
@@ -168,10 +170,10 @@ if __name__ == '__main__':
         cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 
         # computation time, transmission time, computation load, and transmission load on this training round
-        round_compT = max(cost_arr)
-        round_transT = 1.0
-        round_compL = sum(cost_arr)
-        round_transL = len(cost_arr)
+        round_compT = C_1 * max(cost_arr)
+        round_transT = C_2 * 1.0
+        round_compL = C_3 * sum(cost_arr)
+        round_transL = C_4 * len(cost_arr)
 
         # Evaluate the server model performance using both validation set and testing set
         accuracy = FL_server.evaluate_model_performance(include_valid=True, include_test=True)

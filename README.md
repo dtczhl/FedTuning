@@ -79,17 +79,20 @@ Results are saved to Result/. See the print output for the full filename. Result
 
 ## Formulation
 
-On each training round, the cost of each selected client is returned via the following statement (in FeTuning/main.py)
+On each training round, the cost of each selected client is returned via the following statement (in FeTuning/test.py)
 ```python:
 cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 ```
 We calculate time overhead, computation overhead, and communication overhead of a training round by
 ```python:
-# time, computation, and communication cost on this training round
-round_time_cost = max(cost_arr)
-round_computation_cost = sum(cost_arr)
-round_communication_cost = len(cost_arr)
+# computation time (compT), transmission time (transT), computation load (compL), and transmission load (transL) on each training round
+round_compT = C_1 * max(cost_arr)
+round_transT = C_2 * 1.0
+round_compL = C_3 * sum(cost_arr)
+round_transL = C_4 * len(cost_arr)
 ```
+
+Without losing generality, we can take C_1, C_2, C_3, and C_4 to 1. 
 
 ## Result
 
@@ -103,7 +106,10 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
 | 0.1 |  0     | 0.1   | 0.8   |  10    |   1       |   5.67     |   42.73         |    11.07      |  105.86        |  1      |   16   | -3.96%   |
 | 0.1 |  0     | 0.1   | 0.8   |  10    |   2       |   2.89       |   5.02        |    16.23     |  91.99       |  13     |   35   | +13.86%   |
 |  0.5 | 0    |  0   | 0.5    | 1      |     1     |  2.05      |    4.62          |   12.79       |    89.20      |  21     |  27   | +17.91%   |
-|  0.5 |  0    | 0    |  0.5  |   10    |  2        |   2.24         |     4.86    |   15.01       |    104.35     |    24    |   20  | +7.26     | 
+|  0.5 |  0    | 0    |  0.5  |   10    |  2        |   2.24         |     4.86    |   15.01       |    104.35     |    24    |   20  | +7.26%     |
+|  1 |   0    |    0   |   0   |  1     |      1    |   0.64          |   7.41     |    5.60       |     272.47    |   42    |   1     |  +72.21%  |
+| 0.25 | 0.25 | 0.25 | 0.25 |   1       |    1       |  1.83       |     4.46      |    14.09    |    122.36    |     33     |    13   | +4.91%    |
+
 
 
 

@@ -72,12 +72,12 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --n_participant
    * --n_training_pass
 
-Optional arguments
-* --n_consecutive_better: number of trained model is consecutively better than the target accuracy before stop training. Default 5.
-* --trace_id: number suffix the filename for results. Default 1.
-* --penalty: penalty factor when bad decision occurs. Still testing the usefulness of it. Default 1. 
+3. Optional arguments
+   * --n_consecutive_better: number of trained model is consecutively better than the target accuracy before stop training. Default 5.
+   * --trace_id: trace id. Default 1.
+   * --penalty: penalty factor when bad decision occurs. Still testing the usefulness of it. Default 1. 
 
-Results are saved to Result/. See the print output for the full filename. Results are saved in CSV files, in the format of
+Results are saved to Result/. See the running output for the full filename. Results are saved in CSV files, in the format of
 ```plain
 #round_id,model_accuracy,eta_t,eta_q,eta_z,eta_v,zeta_t,zeta_q,zeta_z,zeta_v,number of participant (M),number of training pass (E),cost of each selected client
 ```
@@ -118,6 +118,8 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
 |  0.5 |  0    | 0    |  0.5  |   10    |  2        |   2.24         |     4.86    |   15.01       |    104.35     |    24    |   20  | +7.26%     |
 |  1 |   0    |    0   |   0   |  1     |      1    |   0.64          |   7.41     |    5.60       |     272.47    |   42    |   1     |  +72.21%  |
 | 0.25 | 0.25 | 0.25 | 0.25 |   1       |    1       |  1.83       |     4.46      |    14.09    |    122.36    |     33     |    13   | +4.91%    |
+| 0.25 | 0.25 | 0.25 | 0.25 |   10       |    1      |  1.95      |     4.70     |    12.51   |    97.17   |     23     |    23   | +11.60%    |
+
 
 
 

@@ -26,7 +26,9 @@ trace_infos = [
     (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 10, 2),
     (True, 'speech_command', 'resnet_10', 20, 20, 1, 0, 0, 0, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1)
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 10, 1)
+
 ]
 
 

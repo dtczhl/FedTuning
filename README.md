@@ -15,6 +15,11 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
 
+Require following packages
+```plain
+   pytorch, matplotlib, scikit-image, librosa, pandas
+```
+
 
 ## Dataset Download and Preprocess
 
@@ -101,7 +106,9 @@ Without losing generality, we assign C_1, C_2, C_3, and C_4 to 1.
 
 ## Result Processing
 
-TODO
+Result processing scripts are under ResultAnalysis/
+
+* overall_performance.py: calculate and compare CompT, TransT, CompL, and TransL for different traces. 
 
 ## Result Summary
 
@@ -110,19 +117,15 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
 
 | alpha | beta | gamma | delta | penalty | trace id | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-|  -  |   -   |   -   |   -   |   -       | 1       |  2.31           | 5.90         | 14.41       |  117.98        |    20    |   20  |   -  |
-| 0.1 |   0    | 0.1   | 0.8   |  1   |      1      |      3.44     |   7.01      |    12.53      |    69.75       |    9     |   29   |  +29.12%  |
-| 0.1 |  0     | 0.1   | 0.8   |  10    |   1       |   5.67     |   42.73         |    11.07      |  105.86        |  1      |   16   | -3.96%   |
-| 0.1 |  0     | 0.1   | 0.8   |  10    |   2       |   2.89       |   5.02        |    16.23     |  91.99       |  13     |   35   | +13.86%   |
-|  0.5 | 0    |  0   | 0.5    | 1      |     1     |  2.05      |    4.62          |   12.79       |    89.20      |  21     |  27   | +17.91%   |
-|  0.5 |  0    | 0    |  0.5  |   10    |  2        |   2.24         |     4.86    |   15.01       |    104.35     |    24    |   20  | +7.26%     |
-|  1 |   0    |    0   |   0   |  1     |      1    |   0.64          |   7.41     |    5.60       |     272.47    |   42    |   1     |  +72.21%  |
-| 0.25 | 0.25 | 0.25 | 0.25 |   1       |    1       |  1.83       |     4.46      |    14.09    |    122.36    |     33     |    13   | +4.91%    |
-| 0.25 | 0.25 | 0.25 | 0.25 |   10       |    1      |  1.95      |     4.70     |    12.51   |    97.17   |     23     |    23   | +11.60%    |
-
-
-
-
+| - | - | - | - | - | 1 | 2.31 |  5.90 | 14.41 | 117.98 | 20 | 20.0 | - |
+| 0.25 | 0.25 | 0.25 | 0.25 | 1 | 1 | 1.83 |  4.46 | 14.09 | 122.36 | 33 | 13.0 | +4.91% |
+| 0.25 | 0.25 | 0.25 | 0.25 | 10 | 1 | 1.95 |  4.70 | 12.51 | 97.17 | 23 | 23.0 | +11.6% |
+| 1 | 0 | 0 | 0 | 1 | 1 | 0.64 |  7.41 | 5.60 | 272.47 | 42 | 1.0 | +72.21% |
+| 0.1 | 0 | 0.1 | 0.8 | 1 | 1 | 3.44 |  7.01 | 12.53 | 69.75 | 9 | 29.0 | +29.12% |
+| 0.1 | 0 | 0.1 | 0.8 | 10 | 1 | 5.67 |  42.73 | 11.07 | 105.86 | 1 | 16.0 | -3.96% |
+| 0.1 | 0 | 0.1 | 0.8 | 10 | 2 | 2.89 |  5.02 | 16.23 | 91.99 | 13 | 35.0 | +13.86% |
+| 0.5 | 0 | 0 | 0.5 | 1 | 1 | 2.05 |  4.62 | 12.79 | 89.20 | 21 | 27.0 | +17.91% |
+| 0.5 | 0 | 0 | 0.5 | 10 | 2 | 2.24 |  4.86 | 15.01 | 104.35 | 24 | 20.0 | +7.26% |
 
 
 

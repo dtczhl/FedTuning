@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" autoUpload="Always" serverName="huanlezhang@169.237.7.61:22 password" remoteFilesAllowedToDisappearOnAutoupload="false">
+  <component name="PublishConfigData" autoUpload="Always" serverName="dtczhl@barbel.cs.ucdavis.edu:2222 password" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="FedTuning">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/FedTuning" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="dtczhl@barbel.cs.ucdavis.edu:2222 password">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/dtczhl/FedTuning" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="huanlezhang@169.237.7.61:22 password">
         <serverdata>
           <mappings>

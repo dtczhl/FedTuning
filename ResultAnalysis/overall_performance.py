@@ -1,5 +1,6 @@
 """
-    Overall performance. Also, save processed data to Result/ProcessedData/
+    Overall performance for traces under Result/.
+    Also, save processed data to Result/ProcessedData/
 """
 
 import datetime
@@ -19,18 +20,16 @@ from ResultAnalysis.ReadTrace import read_trace
 
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
-    (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1, 1),  # this must be the baseline
+    (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1, 1),  # this is the baseline
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 10, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 1, 0, 0, 0, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 10, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 10, 2),
     (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 10, 2),
-    (True, 'speech_command', 'resnet_10', 20, 20, 1, 0, 0, 0, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 10, 1)
-
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 10, 2)
 ]
-
 
 # --- End of Configuration ---
 
@@ -39,6 +38,9 @@ trace_infos = [
 project_dir = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(project_dir)
 
+# For ReadMe format
+markdown_message = '| alpha | beta | gamma | delta | penalty | trace id | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |\n'
+markdown_message += '| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n'
 
 baseline_compT = baseline_transT = baseline_compL = baseline_transL = -1
 
@@ -102,4 +104,16 @@ for i_trace in range(len(trace_infos)):
           f'CompL (10^12): {compL_tot/10**12:.2f}, TransL (10^6): {transL_tot/10**6:.2f} | '
           f'final M: {final_M}, final E: {final_E} | '
           f'overall: {np.format_float_positional(overall_improvement, precision=2, sign=True)}%')
+
+    if i_trace == 0:
+        markdown_message += f'| - | - | - | - | - | {trace_id} | ' \
+                            f'{compT_tot/10**12:.2f} |  {transT_tot/10**6:.2f} | {compL_tot/10**12:.2f} | {transL_tot/10**6:.2f} | ' \
+                            f'{int(final_M)} | {final_E} | - |\n'
+    else:
+        markdown_message += f'| {alpha} | {beta} | {gamma} | {delta} | {penalty} | {trace_id} | ' \
+                            f'{compT_tot/10**12:.2f} |  {transT_tot/10**6:.2f} | {compL_tot/10**12:.2f} | {transL_tot/10**6:.2f} | ' \
+                            f'{int(final_M)} | {final_E} | {np.format_float_positional(overall_improvement, precision=2, sign=True)}% |\n'
+
+print('\n ------ Below for ReadMe ------\n')
+print(markdown_message)
 

@@ -59,7 +59,9 @@ plt.grid(linestyle='--', linewidth=0.2)
 plt.title(f'({alpha}, {beta}, {gamma}, {delta}), penalty={penalty}', fontsize=24)
 plt.tight_layout()
 image_filename = re.split('\.', filename)[0] + '.jpg'
-plt.savefig(f'{project_dir}/Result/Image/{image_filename}')
+image_path = f'{project_dir}/Result/Image/{image_filename}'
+print(f'saving image to {image_path}')
+plt.savefig(image_path)
 plt.show()
 
 

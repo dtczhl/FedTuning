@@ -114,7 +114,7 @@ Result processing scripts are under ResultAnalysis/
 
 Result visualization scripts are under ResultAnalysis/.
 
-* decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of no preference) and the penalty factor is adjusted. 
+* decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor. 
    
 Improvement | Penalty | Trajectory
 :---: | :---:    | :---: 
@@ -122,7 +122,6 @@ Improvement | Penalty | Trajectory
 +11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_10_00__1.jpg" width="200" />
 
 ## Result Summary
-
 
 Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
 

@@ -30,10 +30,10 @@ pytorch, matplotlib, scikit-image, librosa, pandas
     python Dataset/speech_command/speech_command_download.py
     ```
 
-2. preprocess. 
-    (1) separate clients' data for training, validation, and testing; 
-    (2) transform audio clips to spectrograms; 
-    (3) save spectrograms to jpg images. 
+2. preprocess.
+    (1) separate clients' data for training, validation, and testing;
+    (2) transform audio clips to spectrograms;
+    (3) save spectrograms to jpg images.
     Preprocessed data are saved to Download/speech_command/_FedTuning/
       ```python:
       python Dataset/speech_command/speech_command_preprocess.py
@@ -43,7 +43,7 @@ Model hyper-parameters such as learning rate and batch size are defined Dataset/
 
 ### Other datasets
 
-TODO 
+TODO
 
 ## Experiments
 
@@ -53,7 +53,7 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
     ```python:
     python FedTuning/main.py --enable_fedtuning True --alpha 0.25 --beta 0.25 --gamma 0.25 --delta 0.25 --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
     ```
-   Required arguments: 
+   Required arguments:
    * --enable_fedtuning True
    * --alpha: preference on computation time (CompT)
    * --beta: preference on transmission time (TransT)
@@ -63,8 +63,8 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --target_model_accuracy. Stop training when trained model has accuracy higher than the target accuracy
    * --dataset: dataset name. Now only support speech_command, more dataset will be supported
    * --n_participant: number of participants (M)
-   * --n_training_pass: number of training passes (E) 
-   
+   * --n_training_pass: number of training passes (E)
+
 2. FL training without FedTuning
     ```python:
     python FedTuning/main.py --enable_fedtuning False --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
@@ -73,14 +73,14 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --enable_fedtuning False
    * --model
    * --target_model_accuracy
-   * --dataset 
+   * --dataset
    * --n_participant
    * --n_training_pass
 
 3. Optional arguments
    * --n_consecutive_better: number of trained model is consecutively better than the target accuracy before stop training. Default 5.
    * --trace_id: trace id. Default 1.
-   * --penalty: penalty factor when bad decision occurs. Still testing the usefulness of it. Default 1. 
+   * --penalty: penalty factor when bad decision occurs. Still testing the usefulness of it. Default 1.
 
 Results are saved to Result/. See the running output for the full filename. Results are saved in CSV files, in the format of
 ```plain
@@ -102,24 +102,25 @@ round_compL = C_3 * sum(cost_arr)
 round_transL = C_4 * len(cost_arr)
 ```
 
-FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore, we assign C_1, C_2, C_3, and C_4 to 1. 
+FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore, we assign C_1, C_2, C_3, and C_4 to 1.
 
 ## Result Processing
 
 Result processing scripts are under ResultAnalysis/
 
-* overall_performance.py: calculate and compare CompT, TransT, CompL, and TransL for different traces. 
+* overall_performance.py: calculate and compare CompT, TransT, CompL, and TransL for different traces.
 
 ## Result Visualization
 
 Result visualization scripts are under ResultAnalysis/.
 
-* decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor. 
-   
+* decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor.  
+
 Improvement | Penalty | Trajectory
-:---: | :---:    | :---: 
-+4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_1_00__1.jpg" width="200" />
-+11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_10_00__1.jpg" width="200" />
+:---: | :---:    | :---:
++4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_1_00__1.jpg" width="200" />
++11.85% | 2 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_2_00__1.jpg" width="200" />
++11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_10_00__1.jpg" width="200" />
 
 ## Result Summary
 
@@ -138,8 +139,3 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
 | 0.1 | 0 | 0.1 | 0.8 | 10 | 2 | 2.89 |  5.02 | 16.23 | 91.99 | 13 | 35.0 | +13.86% |
 | 0.5 | 0 | 0 | 0.5 | 1 | 1 | 2.05 |  4.62 | 12.79 | 89.20 | 21 | 27.0 | +17.91% |
 | 0.5 | 0 | 0 | 0.5 | 10 | 2 | 2.24 |  4.86 | 15.01 | 104.35 | 24 | 20.0 | +7.26% |
-
-
-
-
-

@@ -93,7 +93,7 @@ On each training round, the cost of each selected client is returned via the fol
 ```python:
 cost_arr = FL_server.get_cost_of_selected_clients(client_ids=selected_client_ids)
 ```
-We calculate time overhead, computation overhead, and communication overhead of a training round by
+We calculate computation time, transmission time, computation load, and transmission load of a training round by
 ```python:
 # computation time (compT), transmission time (transT), computation load (compL), and transmission load (transL) on each training round
 round_compT = C_1 * max(cost_arr)
@@ -102,7 +102,7 @@ round_compL = C_3 * sum(cost_arr)
 round_transL = C_4 * len(cost_arr)
 ```
 
-Without losing generality, we assign C_1, C_2, C_3, and C_4 to 1. 
+FedTuning does not depend on absolute values of C_1, C_2, C_3, and C_4, as it is based on the relative ratio. Therefore, we assign C_1, C_2, C_3, and C_4 to 1. 
 
 ## Result Processing
 
@@ -114,12 +114,12 @@ Result processing scripts are under ResultAnalysis/
 
 Result visualization scripts are under ResultAnalysis/.
 
-* decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 and the penalty factor is adjusted. 
+* decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of no preference) and the penalty factor is adjusted. 
    
 Improvement | Penalty | Trajectory
 :---: | :---:    | :---: 
-4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_1_00__1.jpg" width="200" />
-11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_10_00__1.jpg" width="200" />
++4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_1_00__1.jpg" width="200" />
++11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_10_00__1.jpg" width="200" />
 
 ## Result Summary
 

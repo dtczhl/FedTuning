@@ -9,18 +9,24 @@ import sys
 from pathlib import Path
 import copy
 import argparse
+import re
 
 import numpy as np
 import matplotlib.pyplot as plt
 
+from ResultAnalysis.ReadTrace import read_trace
+
 # ------ Configurations ------
 
-trace_infos = [
-    # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1, 1),  # 1
-]
+# enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
+trace_info = (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1, 1)
+
 
 # --- End of Configuration ---
+
+# temporarily add this project to system path
+project_dir = str(pathlib.Path(__file__).resolve().parents[1])
+sys.path.append(project_dir)
 
 model_complexity = {
     # dataset name__model name: (flop, size)
@@ -30,57 +36,30 @@ model_complexity = {
     'speech_command__resnet_34': (60119267, 515555)
 }
 
+trace_matrix, filename = read_trace(trace_info=trace_info)
+trace_matrix = np.array(trace_matrix)
 
-# temporarily add this project to system path
-project_dir = str(pathlib.Path(__file__).resolve().parents[1])
-sys.path.append(project_dir)
+M_trajectory = trace_matrix[:, 10]
+E_trajectory = trace_matrix[:, 11]
 
-for trace_info in trace_infos:
-    enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, penalty, trace_id = trace_info
-    E_str = f'{initial_E:.2f}'.replace('.', '_')
-    alpha_str = f'{alpha:.2f}'.replace('.', '_')
-    beta_str = f'{beta:.2f}'.replace('.', '_')
-    gamma_str = f'{gamma:.2f}'.replace('.', '_')
-    delta_str = f'{delta:.2f}'.replace('.', '_')
-    penalty_str = f'{penalty:.2f}'.replace('.', '_')
-    filename = f'fedtuning_{enable}__{dataset_name}__{model_name}__M_{int(initial_M)}__E_{E_str}__' \
-               f'alpha_{alpha_str}__beta_{beta_str}__gamma_{gamma_str}__delta_{delta_str}__penalty_{penalty_str}__{trace_id}.csv'
-    # read file data
+alpha, beta, gamma, delta = trace_info[5:9]
+penalty = trace_info[9]
 
-    compT = 0
-    transT = 0
-    compL = 0
-    transL = 0
+plt.figure(1, figsize=(6, 5))
+X_list = np.arange(len(M_trajectory))
+plt.plot(X_list, M_trajectory, linewidth=3)
+plt.plot(X_list, E_trajectory, linewidth=3)
+plt.legend(['#participant', '#training pass'], loc='best', fontsize=22)
+plt.xlim([0, max(X_list)])
+plt.xlabel('Training round', fontsize=24)
+plt.xticks(fontsize=22)
+plt.ylabel('', fontsize=24)
+plt.yticks(fontsize=22)
+plt.grid(linestyle='--', linewidth=0.2)
+plt.title(f'({alpha}, {beta}, {gamma}, {delta}), penalty={penalty}', fontsize=24)
+plt.tight_layout()
+image_filename = re.split('\.', filename)[0] + '.jpg'
+plt.savefig(f'{project_dir}/Result/Image/{image_filename}')
+plt.show()
 
-    M_trajectory = []
-    E_trajectory = []
-
-    with open(os.path.join(project_dir, 'Result', filename)) as f_in:
-        while line_data := f_in.readline():
-
-            line_fields = line_data.strip().split(',')
-            round_id = int(line_fields[0])
-            model_accuracy = float(line_fields[1])
-            eta_zeta_arr = line_fields[2:10]
-            M = int(line_fields[10])
-            E = float(line_fields[11])
-            cost_arr = [float(x) for x in line_fields[12:]]
-
-            M_trajectory.append(M)
-            E_trajectory.append(E)
-
-            assert len(cost_arr) == M
-
-            compT += max(cost_arr)
-            transT += 1.0
-            compL += sum(cost_arr)
-            transL += len(cost_arr)
-
-    plt.figure(1)
-    X_list = np.arange(len(M_trajectory))
-    plt.plot(X_list, M_trajectory)
-    plt.plot(X_list, E_trajectory)
-    plt.legend(['M', 'E'])
-    plt.xlabel('Training round')
-    plt.show()
 

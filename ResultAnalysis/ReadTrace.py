@@ -1,5 +1,8 @@
 """
     Read trace data
+        input: trace info in tuple format
+        return [ret, filename]
+            ret: 2D-list = [round_id, model_accuracy, 8 eta and zetas, M, E, CompT, TransT, CompL, TransL]
 """
 
 import datetime

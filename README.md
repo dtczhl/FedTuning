@@ -110,6 +110,14 @@ Result processing scripts are under ResultAnalysis/
 
 * overall_performance.py: calculate and compare CompT, TransT, CompL, and TransL for different traces. 
 
+## Result Visualization
+
+Result visualization scripts are under ResultAnalysis/.
+
+* decision_trajectory.py: visualize trajectories of M and E. Below are few examples
+
+<img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_1_00__1.jpg" width="120" />
+
 ## Result Summary
 
 

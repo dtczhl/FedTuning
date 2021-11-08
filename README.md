@@ -116,10 +116,10 @@ Result visualization scripts are under ResultAnalysis/.
 
 * decision_trajectory.py: visualize trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 and the penalty factor is adjusted. 
    
-   Improvement | Penalty | Trajectory
-      :---: | :---:    | :---: 
-   4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_1_00__1.jpg" width="200" />
-   11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_10_00__1.jpg" width="200" />
+Improvement | Penalty | Trajectory
+:---: | :---:    | :---: 
+4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_1_00__1.jpg" width="200" />
+11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_10__beta_0_00__gamma_0_10__delta_0_80__penalty_10_00__1.jpg" width="200" />
 
 ## Result Summary
 

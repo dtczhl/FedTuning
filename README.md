@@ -120,6 +120,13 @@ Improvement | Penalty | Trajectory
 :---: | :---:    | :---:
 +4.91% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_1_00__1.jpg" width="200" />
 +11.85% | 2 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_2_00__1.jpg" width="200" />
++9.19% | 3 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_3_00__1.jpg" width="200" />
++12.9% | 4 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_4_00__1.jpg" width="200" />
+-3.92% | 5 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_5_00__1.jpg" width="200" />
++8.58% | 6 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_6_00__1.jpg" width="200" />
++2.44% | 7 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_7_00__1.jpg" width="200" />
++8.68% | 8 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_8_00__1.jpg" width="200" />
++8.4% | 9 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_9_00__1.jpg" width="200" />
 +11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_10_00__1.jpg" width="200" />
 
 ## Result Summary

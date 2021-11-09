@@ -51,7 +51,7 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
 
 1. FL training with FedTuning enabled
     ```python:
-    python FedTuning/main.py --enable_fedtuning True --alpha 0.25 --beta 0.25 --gamma 0.25 --delta 0.25 --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
+    python FedTuning/main.py --enable_fedtuning True --alpha 0.25 --beta 0.25 --gamma 0.25 --delta 0.25 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command
     ```
    Required arguments:
    * --enable_fedtuning True
@@ -67,7 +67,7 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
 
 2. FL training without FedTuning
     ```python:
-    python FedTuning/main.py --enable_fedtuning False --model resnet_10 --target_model_accuracy 0.8 --n_participant 10 --n_training_pass 10 --dataset speech_command
+    python FedTuning/main.py --enable_fedtuning False --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command
     ```
    Required arguments:
    * --enable_fedtuning False
@@ -114,7 +114,9 @@ Result processing scripts are under ResultAnalysis/
 
 Result visualization scripts are under ResultAnalysis/.
 
-* decision_trajectory.py: visualize a trace's trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor.  
+### Trajectory visualization
+
+decision_trajectory.py: visualize a trace's trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor.  
 
 Improvement | Penalty | Trajectory
 :---: | :---:    | :---:
@@ -129,6 +131,13 @@ Improvement | Penalty | Trajectory
 +8.4% | 9 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_9_00__1.jpg" width="200" />
 +11.60% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_10_00__1.jpg" width="200" />
 
+### Study of Penalty Factor
+
+penalty_performance.py: plot improvement ratio vs penalty 
+
+<img src="Result/Image/penalty_performance.jpg" width="300" />
+
+
 ## Result Summary
 
 Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
@@ -139,7 +148,6 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8
 | - | - | - | - | - | 1 | 2.31 |  5.90 | 14.41 | 117.98 | 20 | 20.0 | - |
 | 1 | 0 | 0 | 0 | 1 | 1 | 0.64 |  7.41 | 5.60 | 272.47 | 42 | 1.0 | +72.21% |
 | 0 | 0 | 1 | 0 | 1 | 1 | 0.96 |  17.22 | 3.18 | 68.79 | 1 | 1.0 | +77.94% |
-| 0 | 0 | 1 | 0 | 5 | 1 | 0.82 |  47.83 | 2.37 | 76.85 | 1 | 1.0 | +83.56% |
 | 0.25 | 0.25 | 0.25 | 0.25 | 1 | 1 | 1.83 |  4.46 | 14.09 | 122.36 | 33 | 13.0 | +4.91% |
 | 0.25 | 0.25 | 0.25 | 0.25 | 2 | 1 | 1.46 |  5.34 | 10.88 | 134.64 | 24 | 8.0 | +11.85% |
 | 0.25 | 0.25 | 0.25 | 0.25 | 3 | 1 | 1.76 |  4.86 | 12.76 | 116.30 | 22 | 14.0 | +9.19% |

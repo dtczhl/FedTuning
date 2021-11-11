@@ -21,16 +21,16 @@ from ResultAnalysis.ReadTrace import read_trace
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
     (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1, 1),  # this is the baseline
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 2, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 3, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 4, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 5, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 6, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 7, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 8, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 9, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 10, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 2, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 3, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 4, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 5, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 6, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 7, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 8, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 9, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 10, 1),
 ]
 
 # --- End of Configuration ---

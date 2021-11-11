@@ -1,7 +1,7 @@
 """
     plot accuracy vs penalty
 
-    results copied from the output of overall_performance.py
+    results copied from the output of performance_summary.py
 """
 
 import pathlib

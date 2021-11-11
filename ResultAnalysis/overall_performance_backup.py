@@ -25,41 +25,17 @@ trace_infos = [
     (True, 'speech_command', 'resnet_10', 20, 20, 0, 1, 0, 0, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0, 0, 1, 0, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 1, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 2, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 3, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 4, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 5, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 6, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 7, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 8, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 9, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 10, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 1, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 2, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 3, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 4, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 5, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 6, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 7, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 8, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 9, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 10, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0.5, 0, 0, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0.5, 0, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0.5, 0, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0.5, 0.5, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0.33, 0.33, 0, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0.33, 0, 0.33, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 1, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 2, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 3, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 4, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 5, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 6, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 7, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 8, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 9, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 10, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 1, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 10, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.1, 0, 0.1, 0.8, 10, 2),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 1, 1),
-    # (True, 'speech_command', 'resnet_10', 20, 20, 0.5, 0, 0, 0.5, 10, 2)
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1),
 ]
 
 # --- End of Configuration ---
@@ -125,7 +101,7 @@ for i_trace in range(len(trace_infos)):
         baseline_transL = transL_tot
 
     overall_improvement = alpha * (compT_tot - baseline_compT) / baseline_compT + \
-                          beta * (transT_tot - baseline_transT) / baseline_compT + \
+                          beta * (transT_tot - baseline_transT) / baseline_transT + \
                           gamma * (compL_tot - baseline_compL) / baseline_compL + \
                           delta * (transL_tot - baseline_transL) / baseline_transL
     overall_improvement *= -100  # negative is improvement, so switch the sign

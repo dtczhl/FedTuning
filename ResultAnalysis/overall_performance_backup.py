@@ -21,8 +21,7 @@ from ResultAnalysis.ReadTrace import read_trace
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
     (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1, 1),  # this is the baseline
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 2, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 1, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 3, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 4, 1),
     (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 5, 1),

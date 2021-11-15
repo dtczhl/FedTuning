@@ -22,7 +22,7 @@ model_name = 'resnet_10'
 initial_M = 20
 initial_E = 20
 penalty = 1
-trace_ids = [1]
+trace_ids = [1, 2, 3]
 
 # --- End of Configuration ---
 
@@ -45,14 +45,18 @@ class TraceResult:
         self.mean_final_E = np.average(self.final_E)
         self.std_final_E = np.std(self.final_E)
 
-    def __add__(self, other):
+    def add_other(self, other):
+
         self.CompT.extend(other.CompT)
         self.TransT.extend(other.TransT)
         self.CompL.extend(other.CompL)
         self.TransL.extend(other.TransL)
 
-        self.mean = [np.average(self.CompT), np.average(self.TransT), np.average(self.CompL), np.average(self.TransL)]
-        self.std = [np.std(self.CompT), np.std(self.TransT), np.std(self.CompL), np.std(self.TransL)]
+        self.final_M.extend(other.final_M)
+        self.final_E.extend(other.final_E)
+
+        self.mean_system = [np.average(self.CompT), np.average(self.TransT), np.average(self.CompL), np.average(self.TransL)]
+        self.std_system = [np.std(self.CompT), np.std(self.TransT), np.std(self.CompL), np.std(self.TransL)]
 
         self.mean_final_M = np.average(self.final_M)
         self.std_final_M = np.std(self.final_M)
@@ -137,9 +141,14 @@ for preference in preference_combine_all:
 
         map_key = (alpha, beta, gamma, delta)
         if map_key in result_map:
-            result_map[map_key] += trace_result
+            result_map[map_key].add_other(trace_result)
         else:
             result_map[map_key] = trace_result
+
+# for k, v in result_map.items():
+#     print(k, v)
+#
+# exit()
 
 # For ReadMe format
 markdown_message = '| alpha | beta | gamma | delta | penalty | trace id | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |\n'
@@ -155,28 +164,36 @@ for preference in preference_combine_all:
     if tuple(preference) == (0, 0, 0, 0):
         system_baseline = traces_result
         markdown_message += f'| - | - | - | - | - | {trace_ids} | ' \
-                            f'{traces_result.mean_system[0]/10**12:.2f} ({traces_result.std_system[0]:.2f}) | ' \
-                            f'{traces_result.mean_system[1]/10**6:.2f} ({traces_result.std_system[1]:.2f}) | ' \
-                            f'{traces_result.mean_system[2]/10**12:.2f} ({traces_result.std_system[2]:.2f}) | ' \
-                            f'{traces_result.mean_system[3]/10**6:.2f} ({traces_result.std_system[3]:.2f}) | ' \
+                            f'{traces_result.mean_system[0]/10**12:.2f} ({traces_result.std_system[0]/10**12:.2f}) | ' \
+                            f'{traces_result.mean_system[1]/10**6:.2f} ({traces_result.std_system[1]/10**6:.2f}) | ' \
+                            f'{traces_result.mean_system[2]/10**12:.2f} ({traces_result.std_system[2]/10**12:.2f}) | ' \
+                            f'{traces_result.mean_system[3]/10**6:.2f} ({traces_result.std_system[3]/10**6:.2f}) | ' \
                             f'{traces_result.mean_final_M:.2f} ({traces_result.std_final_M:.2f}) | ' \
                             f'{traces_result.mean_final_E:.2f} ({traces_result.std_final_E:.2f}) | - |\n'
     else:
 
-        overall_improvement = preference[0] * (traces_result.mean_system[0] - system_baseline.mean_system[0]) / system_baseline.mean_system[0] + \
-                              preference[1] * (traces_result.mean_system[1] - system_baseline.mean_system[1]) / system_baseline.mean_system[1] + \
-                              preference[2] * (traces_result.mean_system[2] - system_baseline.mean_system[2]) / system_baseline.mean_system[2] + \
-                              preference[3] * (traces_result.mean_system[3] - system_baseline.mean_system[3]) / system_baseline.mean_system[3]
-        overall_improvement *= -100  # negative is improvement, so switch the sign
+        overall_improve_ratios = []
+        for i_trace in range(len(trace_ids)):
+            overall_improvement = preference[0] * (traces_result.CompT[i_trace] - system_baseline.mean_system[0]) / \
+                                  system_baseline.mean_system[0] + \
+                                  preference[1] * (traces_result.TransT[i_trace] - system_baseline.mean_system[1]) / \
+                                  system_baseline.mean_system[1] + \
+                                  preference[2] * (traces_result.CompL[i_trace] - system_baseline.mean_system[2]) / \
+                                  system_baseline.mean_system[2] + \
+                                  preference[3] * (traces_result.TransL[i_trace] - system_baseline.mean_system[3]) / \
+                                  system_baseline.mean_system[3]
+            overall_improvement *= -100  # negative is improvement, so switch the sign
+            overall_improve_ratios.append(overall_improvement)
 
         markdown_message += f'| {preference[0]} | {preference[1]} | {preference[2]} | {preference[3]} | {penalty} | {trace_ids} | ' \
-                            f'{traces_result.mean_system[0] / 10 ** 12:.2f} ({traces_result.std_system[0]:.2f}) | ' \
-                            f'{traces_result.mean_system[1] / 10 ** 6:.2f} ({traces_result.std_system[1]:.2f}) | ' \
-                            f'{traces_result.mean_system[2] / 10 ** 12:.2f} ({traces_result.std_system[2]:.2f}) | ' \
-                            f'{traces_result.mean_system[3] / 10 ** 6:.2f} ({traces_result.std_system[3]:.2f}) | ' \
+                            f'{traces_result.mean_system[0]/10**12:.2f} ({traces_result.std_system[0]/10**12:.2f}) | ' \
+                            f'{traces_result.mean_system[1]/10**6:.2f} ({traces_result.std_system[1]/10**6:.2f}) | ' \
+                            f'{traces_result.mean_system[2]/10**12:.2f} ({traces_result.std_system[2]/10**12:.2f}) | ' \
+                            f'{traces_result.mean_system[3]/10**6:.2f} ({traces_result.std_system[3]/10**6:.2f}) | ' \
                             f'{traces_result.mean_final_M:.2f} ({traces_result.std_final_M:.2f}) | ' \
                             f'{traces_result.mean_final_E:.2f} ({traces_result.std_final_E:.2f}) | ' \
-                            f'{np.format_float_positional(overall_improvement, precision=2, sign=True)}% |\n'
+                            f'{np.format_float_positional(np.average(overall_improve_ratios), precision=2, sign=True)} ' \
+                            f'({np.std(overall_improve_ratios):.2f})% |\n'
 
 
 print('\n ------ Below for ReadMe ------\n')

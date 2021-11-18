@@ -141,7 +141,7 @@ Result visualization scripts are under ResultAnalysis/.
 
 ### Trajectory visualization
 
-decision_trajectory.py: visualize a trace's trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor.  
+decision_trajectory.py: visualize a trace's trajectories of M and E. Below are results for different penalty factors when (0, 0.5, 0, 0.5).  
 
 Improvement | Penalty | Trajectory
 :---: | :---:    | :---:

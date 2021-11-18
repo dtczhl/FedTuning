@@ -110,34 +110,6 @@ Result processing scripts are under ResultAnalysis/
 
 * overall_performance.py: calculate and compare CompT, TransT, CompL, and TransL for different traces.
 
-## Result Visualization
-
-Result visualization scripts are under ResultAnalysis/.
-
-### Trajectory visualization
-
-decision_trajectory.py: visualize a trace's trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor.  
-
-Improvement | Penalty | Trajectory
-:---: | :---:    | :---:
-+10.99% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_1_00__1.jpg" width="200" />
-+14.21% | 2 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_2_00__1.jpg" width="200" />
-+13.58% | 3 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_3_00__1.jpg" width="200" />
-+16.95% | 4 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_4_00__1.jpg" width="200" />
-+0.47% | 5 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_5_00__1.jpg" width="200" />
-+11.29% | 6 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_6_00__1.jpg" width="200" />
-+4.13% | 7 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_7_00__1.jpg" width="200" />
-+12.73% | 8 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_8_00__1.jpg" width="200" />
-+11.44% | 9 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_9_00__1.jpg" width="200" />
-+16.66% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_25__beta_0_25__gamma_0_25__delta_0_25__penalty_10_00__1.jpg" width="200" />
-
-### Study of Penalty Factor
-
-penalty_performance.py: plot improvement ratio vs penalty 
-
-<img src="Result/Image/penalty_performance.jpg" width="300" />
-
-
 ## Result Summary
 
 Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses. 
@@ -161,3 +133,36 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standar
 | 0.33 | 0.0 | 0.33 | 0.33 | 1 | [1, 2, 3] | 2.86 (2.77) | 18.41 (10.02) | 8.24 (5.33) | 91.59 (20.84) | 7.67 (8.73) | 12.33 (15.33) | +6.75 (54.87)% |
 | 0.0 | 0.33 | 0.33 | 0.33 | 1 | [1, 2, 3] | 3.08 (1.21) | 6.54 (0.90) | 12.92 (5.01) | 83.38 (11.40) | 11.33 (2.87) | 27.33 (8.73) | +1.14 (20.93)% |
 | 0.25 | 0.25 | 0.25 | 0.25 | 1 | [1, 2, 3] | 1.70 (0.12) | 5.21 (0.54) | 11.45 (2.36) | 108.86 (12.89) | 22.67 (7.32) | 10.00 (2.45) | +9.20 (6.66)% |
+
+
+## Result Visualization
+
+Result visualization scripts are under ResultAnalysis/.
+
+### Trajectory visualization
+
+decision_trajectory.py: visualize a trace's trajectories of M and E. Below are few examples when alpha = beta = gamma = delta = 0.25 (a tough case of equal preference) and we change the penalty factor.  
+
+Improvement | Penalty | Trajectory
+:---: | :---:    | :---:
+-36.76% | 1 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_1_00__1.jpg" width="200" />
+-3.61% | 2 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_2_00__1.jpg" width="200" />
++5.57% | 3 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_3_00__1.jpg" width="200" />
+-7.13% | 4 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_4_00__1.jpg" width="200" />
++5.27% | 5 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_5_00__1.jpg" width="200" />
++15.95% | 6 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_6_00__1.jpg" width="200" />
++5.47% | 7 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_7_00__1.jpg" width="200" />
+-3.18% | 8 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_8_00__1.jpg" width="200" />
++10.07% | 9 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_9_00__1.jpg" width="200" />
++17.43% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_10_00__1.jpg" width="200" />
+
+### Study of Penalty Factor
+
+penalty_performance.py: plot improvement ratio vs penalty 
+
+<img src="Result/Image/penalty_performance.jpg" width="300" />
+
+
+
+
+0, 0.5, 0, 0.5

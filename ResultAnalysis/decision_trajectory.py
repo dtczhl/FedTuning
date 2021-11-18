@@ -19,7 +19,7 @@ from ResultAnalysis.ReadTrace import read_trace
 # ------ Configurations ------
 
 # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
-trace_info = (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 9, 1)
+trace_info = (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 10, 1)
 
 
 # --- End of Configuration ---

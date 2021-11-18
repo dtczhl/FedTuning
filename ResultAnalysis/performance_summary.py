@@ -192,8 +192,8 @@ for preference in preference_combine_all:
                             f'{traces_result.mean_system[3]/10**6:.2f} ({traces_result.std_system[3]/10**6:.2f}) | ' \
                             f'{traces_result.mean_final_M:.2f} ({traces_result.std_final_M:.2f}) | ' \
                             f'{traces_result.mean_final_E:.2f} ({traces_result.std_final_E:.2f}) | ' \
-                            f'{np.format_float_positional(np.average(overall_improve_ratios), precision=2, sign=True)} ' \
-                            f'({np.std(overall_improve_ratios):.2f})% |\n'
+                            f'{np.format_float_positional(np.average(overall_improve_ratios), precision=2, sign=True)}% ' \
+                            f'({np.std(overall_improve_ratios):.2f}) |\n'
 
 
 print('\n ------ Below for ReadMe ------\n')

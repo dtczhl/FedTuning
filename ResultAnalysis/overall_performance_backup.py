@@ -21,15 +21,16 @@ from ResultAnalysis.ReadTrace import read_trace
 trace_infos = [
     # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
     (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1, 1),  # this is the baseline
-    (True, 'speech_command', 'resnet_10', 20, 20, 0.33, 0, 0.33, 0.33, 1, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 3, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 4, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 5, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 6, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 7, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 8, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 9, 1),
-    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.33, 0.33, 0.33, 10, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 1, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 2, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 3, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 4, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 5, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 6, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 7, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 8, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 9, 1),
+    (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 10, 1)
 ]
 
 # --- End of Configuration ---
@@ -93,6 +94,11 @@ for i_trace in range(len(trace_infos)):
         baseline_transT = transT_tot
         baseline_compL = compL_tot
         baseline_transL = transL_tot
+
+        baseline_compT = 2.17 * 10**12
+        baseline_transT = 5.37 * 10**6
+        baseline_compL = 13.31 * 10**12
+        baseline_transL = 107.35 * 10**6
 
     overall_improvement = alpha * (compT_tot - baseline_compT) / baseline_compT + \
                           beta * (transT_tot - baseline_transT) / baseline_transT + \

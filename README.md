@@ -112,7 +112,7 @@ Result processing scripts are under ResultAnalysis/
 
 ## Result Summary
 
-Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses. 
+Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses.
 
 
 | alpha | beta | gamma | delta | penalty | trace id | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |
@@ -158,11 +158,6 @@ Improvement | Penalty | Trajectory
 
 ### Study of Penalty Factor
 
-penalty_performance.py: plot improvement ratio vs penalty 
+penalty_performance.py: plot improvement ratio vs penalty
 
 <img src="Result/Image/penalty_performance.jpg" width="300" />
-
-
-
-
-0, 0.5, 0, 0.5

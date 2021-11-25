@@ -104,15 +104,9 @@ round_transL = C_4 * len(cost_arr)
 
 FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore, we assign C_1, C_2, C_3, and C_4 to 1.
 
-## Result Processing
-
-Result processing scripts are under ResultAnalysis/
-
-* overall_performance.py: calculate and compare CompT, TransT, CompL, and TransL for different traces.
-
 ## Result Summary
 
-Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses.
+Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses. Run ResultAnalysis/performance_summary.py, which outputs the below results. 
 
 
 | alpha | beta | gamma | delta | penalty | trace id | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |
@@ -133,6 +127,12 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standar
 | 0.33 | 0.0 | 0.33 | 0.33 | 1 | [1, 2, 3] | 2.86 (2.77) | 18.41 (10.02) | 8.24 (5.33) | 91.59 (20.84) | 7.67 (8.73) | 12.33 (15.33) | +6.75% (54.87) |
 | 0.0 | 0.33 | 0.33 | 0.33 | 1 | [1, 2, 3] | 3.08 (1.21) | 6.54 (0.90) | 12.92 (5.01) | 83.38 (11.40) | 11.33 (2.87) | 27.33 (8.73) | +1.14% (20.93) |
 | 0.25 | 0.25 | 0.25 | 0.25 | 1 | [1, 2, 3] | 1.70 (0.12) | 5.21 (0.54) | 11.45 (2.36) | 108.86 (12.89) | 22.67 (7.32) | 10.00 (2.45) | +9.20% (6.66) |
+
+## Penalty Study
+
+From the above table, we can see that there are several cases, e.g., (0, 0.5, 0, 0.5) that FedTuning leads to degraded performance. We apply penalty to mitigate its effect. Run Result/Analysis/penalty_performance.py to plot improvement ratio vs penalty factor
+
+<img src="Result/Image/penalty_performance.jpg" width="300" />
 
 
 ## Result Visualization

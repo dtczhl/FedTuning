@@ -10,32 +10,56 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-improvement_ratio = [
-    [10.99, 14.21, 13.58, 16.95, 0.47, 11.29, 4.13, 12.73, 11.44, 16.66],
-    [6.36, -0.23, 21.79, -3.58, 14.4, 11.52, -1.21, 13.26, 19.30, -1.62],
-    [-36.76, -3.61, 5.57, -7.13, 5.27, 15.95, 5.47, -3.18, 10.07, 17.43]
+from ResultAnalysis.ReadTrace import read_traces_of_preference_penalty
+
+dataset_name = 'speech_command'
+model_name = 'resnet_10'
+initial_M = 20
+initial_E = 20
+
+preference_arr = [
+    (0, 0.5, 0, 0.5),
+    (0, 0.5, 0.5, 0)
 ]
-trace_legend = [
-    '(0.25, 0.25, 0.25, 0.25)',
-    '(0, 0.33, 0.33, 0.33)',
-    '(0, 0.5, 0, 0.5)'
-]
-penalty_factor = np.arange(1, len(improvement_ratio[0])+1)
+trace_legend = [str(preference) for preference in preference_arr]
+
+penalty_factor_arr = np.arange(1, 11)
+trace_id_arr = [1, 2, 3]
 
 # temporarily add this project to system path
 project_dir = str(pathlib.Path(__file__).resolve().parents[1])
 sys.path.append(project_dir)
 
+baseline = read_traces_of_preference_penalty(
+            dataset_name=dataset_name, model_name=model_name, initial_M=initial_M, initial_E=initial_E,
+            preference=(0, 0, 0, 0), penalty=1, trace_id_arr=trace_id_arr)
+
+# result_preference_matrix = np.zeros((len(preference_arr), len(penalty_factor_arr)))
+result_preference_matrix = [[None for j in range(len(penalty_factor_arr))] for i in range(len(preference_arr))]
+for i_preference, preference in enumerate(preference_arr):
+    for i_penalty, penalty in enumerate(penalty_factor_arr):
+        trace_result = read_traces_of_preference_penalty(
+            dataset_name=dataset_name, model_name=model_name, initial_M=initial_M, initial_E=initial_E,
+            preference=preference, penalty=penalty, trace_id_arr=trace_id_arr, baseline=baseline)
+        result_preference_matrix[i_preference][i_penalty] = trace_result
+
 plt.figure(1, figsize=(6, 5))
-plt.plot(penalty_factor, improvement_ratio[0], '-o', linewidth=3)
-plt.plot(penalty_factor, improvement_ratio[1], '-^', linewidth=3)
-plt.plot(penalty_factor, improvement_ratio[2], '-*', linewidth=3)
+plt.errorbar(penalty_factor_arr,
+             y=[100 * result.mean_improve_ratio for result in result_preference_matrix[0]],
+             yerr=[100 * result.std_improve_ratio for result in result_preference_matrix[0]],
+             fmt='-o', linewidth=3)
+plt.errorbar(penalty_factor_arr,
+             y=[100 * result.mean_improve_ratio for result in result_preference_matrix[1]],
+             yerr=[100 * result.std_improve_ratio for result in result_preference_matrix[1]],
+             fmt='-*', linewidth=3)
+# plt.plot(penalty_factor_arr, [100 * result.mean_improve_ratio for result in result_preference_matrix[1]], '-^', linewidth=3)
+# plt.plot(penalty_factor_arr, result_preference_matrix[2], '-*', linewidth=3)
 plt.legend(trace_legend, loc='lower center', fontsize=20)
 plt.xlabel('Penalty', fontsize=24)
-plt.xlim([1, 10])
-plt.xticks(penalty_factor, fontsize=22)
+plt.xlim([0, 10])
+plt.xticks(penalty_factor_arr, fontsize=22)
 plt.ylabel('Improvement Ratio (%)', fontsize=24)
-plt.ylim([-40, 30])
+# plt.ylim([-50, 20])
 # plt.yticks(np.arange(-60, 50, 20), fontsize=22)
 plt.yticks(fontsize=22)
 plt.grid(linestyle='--', linewidth=0.2)

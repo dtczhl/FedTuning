@@ -27,6 +27,139 @@ model_complexity = {
     'speech_command__resnet_34': (60119267, 515555)
 }
 
+
+class TraceResult:
+
+    def __init__(self, alpha, beta, gamma, delta, compT, transT, compL, transL, final_M, final_E, baseline=None):
+
+        self.alpha = alpha
+        self.beta = beta
+        self.gamma = gamma
+        self.delta = delta
+
+        self.baseline = baseline
+
+        self.improve_ratios = []
+
+        self.CompT = [compT]
+        self.TransT = [transT]
+        self.CompL = [compL]
+        self.TransL = [transL]
+        self.final_M = [final_M]
+        self.final_E = [final_E]
+
+        self.mean_system = [np.average(self.CompT), np.average(self.TransT), np.average(self.CompL), np.average(self.TransL)]
+        self.std_system = [np.std(self.CompT), np.std(self.TransT), np.std(self.CompL), np.std(self.TransL)]
+
+        self.mean_final_M = np.average(self.final_M)
+        self.std_final_M = np.std(self.final_M)
+        self.mean_final_E = np.average(self.final_E)
+        self.std_final_E = np.std(self.final_E)
+
+        self.mean_improve_ratio = None
+        self.std_improve_ratio = None
+        if baseline is not None:
+            improvement_ratio = self.alpha * (self.CompT[-1] - self.baseline.mean_system[0]) / \
+                                self.baseline.mean_system[0] \
+                                + self.beta * (self.TransT[-1] - self.baseline.mean_system[1]) / \
+                                self.baseline.mean_system[1] \
+                                + self.gamma * (self.CompL[-1] - self.baseline.mean_system[2]) / \
+                                self.baseline.mean_system[2] \
+                                + self.delta * (self.TransL[-1] - self.baseline.mean_system[3]) / \
+                                self.baseline.mean_system[3]
+            self.improve_ratios.append(-improvement_ratio)
+            self.mean_improve_ratio = np.average(self.improve_ratios)
+            self.std_improve_ratio = np.std(self.improve_ratios)
+
+    def add_other(self, other):
+
+        assert len(other.CompT) == 1 and len(other.TransT) == 1 and len(other.CompL) == 1 and len(other.TransL) == 1
+
+        self.CompT.extend(other.CompT)
+        self.TransT.extend(other.TransT)
+        self.CompL.extend(other.CompL)
+        self.TransL.extend(other.TransL)
+
+        self.improve_ratios.extend(other.improve_ratios)
+
+        self.final_M.extend(other.final_M)
+        self.final_E.extend(other.final_E)
+
+        self.mean_system = [np.average(self.CompT), np.average(self.TransT), np.average(self.CompL), np.average(self.TransL)]
+        self.std_system = [np.std(self.CompT), np.std(self.TransT), np.std(self.CompL), np.std(self.TransL)]
+
+        self.mean_final_M = np.average(self.final_M)
+        self.std_final_M = np.std(self.final_M)
+        self.mean_final_E = np.average(self.final_E)
+        self.std_final_E = np.std(self.final_E)
+
+        if self.baseline is not None:
+            self.mean_improve_ratio = np.average(self.improve_ratios)
+            self.std_improve_ratio = np.std(self.improve_ratios)
+
+    def __str__(self):
+        return f'System Mean: {self.mean_system}\n' \
+               f'System Std: {self.std_system}\n' \
+               f'CompT: {self.CompT}\n' \
+               f'TransT: {self.TransT}\n' \
+               f'CompL: {self.CompL}\n' \
+               f'TransL: {self.TransL}'
+
+
+def read_traces_of_preference_penalty(*, dataset_name, model_name, initial_M, initial_E, preference, penalty, trace_id_arr, baseline=None):
+    """ Return TraceResult
+
+    :param preference:
+    :param penalty:
+    :param trace_id_arr:
+    :return:
+    """
+    enable = True if sum(preference) > 0 else False
+    alpha, beta, gamma, delta = preference
+
+    ret = None
+
+    for trace_id in trace_id_arr:
+        trace_info = (
+        enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, penalty, trace_id)
+        file_stat, filename = read_trace(trace_info)
+
+        round_id = file_stat[:, 0]
+        model_accuracy = file_stat[:, 1]
+        eta_t = file_stat[:, 2]
+        eta_q = file_stat[:, 3]
+        eta_z = file_stat[:, 4]
+        eta_v = file_stat[:, 5]
+        zeta_t = file_stat[:, 6]
+        zeta_q = file_stat[:, 7]
+        zeta_z = file_stat[:, 8]
+        zeta_v = file_stat[:, 9]
+        M = file_stat[:, 10]
+        E = file_stat[:, 11]
+        compT = file_stat[:, 12]
+        transT = file_stat[:, 13]
+        compL = file_stat[:, 14]
+        transL = file_stat[:, 15]
+
+        final_M = M[-1]
+        final_E = E[-1]
+
+        compT_tot = sum(compT)
+        transT_tot = sum(transT)
+        compL_tot = sum(compL)
+        transL_tot = sum(transL)
+
+        trace_result = TraceResult(alpha, beta, gamma, delta, compT_tot, transT_tot, compL_tot, transL_tot, final_M, final_E, baseline=baseline)
+
+        if ret is None:
+            ret = trace_result
+        else:
+            ret.add_other(trace_result)
+
+    return ret
+
+
+
 def read_trace(trace_info):
     enable, dataset_name, model_name, initial_M, initial_E, alpha, beta, gamma, delta, penalty, trace_id = trace_info
     E_str = f'{initial_E:.2f}'.replace('.', '_')

@@ -23,17 +23,21 @@ unset __conda_setup
 # <<< conda initialize <<<
 
 (
-cd $path_to_git/
+cd $path_to_git/ || exit
 conda activate ${conda_env_name}
-CUDA_VISIBLE_DEVICES=0 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 2 &> Log/log_2 &
-CUDA_VISIBLE_DEVICES=1 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 3 &> Log/log_3 &
-CUDA_VISIBLE_DEVICES=2 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 4 &> Log/log_4 &
-CUDA_VISIBLE_DEVICES=3 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 5 &> Log/log_5 &
-CUDA_VISIBLE_DEVICES=4 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 6 &> Log/log_6 &
-CUDA_VISIBLE_DEVICES=5 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 7 &> Log/log_7 &
-CUDA_VISIBLE_DEVICES=6 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 8 &> Log/log_8 &
-CUDA_VISIBLE_DEVICES=7 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 9 &> Log/log_9 &
-CUDA_VISIBLE_DEVICES=0 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 10 &> Log/log_10 &
+CUDA_VISIBLE_DEVICES=0 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 2 --trace_id 3 &> Log/log_0110_2_3 &
+CUDA_VISIBLE_DEVICES=1 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 3 --trace_id 3 &> Log/log_0110_3_3 &
+CUDA_VISIBLE_DEVICES=2 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 4 --trace_id 3 &> Log/log_0110_4_3 &
+CUDA_VISIBLE_DEVICES=3 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 5 --trace_id 3 &> Log/log_0110_5_3 &
+CUDA_VISIBLE_DEVICES=4 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 6 --trace_id 3 &> Log/log_0110_6_3 &
+CUDA_VISIBLE_DEVICES=5 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 7 --trace_id 3 &> Log/log_0110_7_3 &
+CUDA_VISIBLE_DEVICES=6 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 8 --trace_id 3 &> Log/log_0110_8_3 &
+CUDA_VISIBLE_DEVICES=7 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 9 --trace_id 3 &> Log/log_0110_9_3 &
+CUDA_VISIBLE_DEVICES=6 nohup python -u FedTuning/main.py --enable_fedtuning True --alpha 0 --beta 0.5 --gamma 0.5 --delta 0 --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command --penalty 10 --trace_id 3 &> Log/log_0110_10_3 &
 )
+
+
+
+
 
 

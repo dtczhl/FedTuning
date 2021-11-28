@@ -18,10 +18,12 @@ initial_M = 20
 initial_E = 20
 
 preference_arr = [
+    (0, 0.5, 0.5, 0),
     (0, 0.5, 0, 0.5),
-    (0, 0.5, 0.5, 0)
+    (0.33, 0.33, 0, 0.33)
 ]
 trace_legend = [str(preference) for preference in preference_arr]
+plt_fmt = ['o-', '^-', 's-']
 
 penalty_factor_arr = np.arange(1, 11)
 trace_id_arr = [1, 2, 3]
@@ -44,22 +46,19 @@ for i_preference, preference in enumerate(preference_arr):
         result_preference_matrix[i_preference][i_penalty] = trace_result
 
 plt.figure(1, figsize=(6, 5))
-plt.errorbar(penalty_factor_arr,
-             y=[100 * result.mean_improve_ratio for result in result_preference_matrix[0]],
-             yerr=[100 * result.std_improve_ratio for result in result_preference_matrix[0]],
-             fmt='-o', linewidth=3)
-plt.errorbar(penalty_factor_arr,
-             y=[100 * result.mean_improve_ratio for result in result_preference_matrix[1]],
-             yerr=[100 * result.std_improve_ratio for result in result_preference_matrix[1]],
-             fmt='-*', linewidth=3)
+for i in range(len(preference_arr)):
+    plt.errorbar(penalty_factor_arr,
+                 y=[100 * result.mean_improve_ratio for result in result_preference_matrix[i]],
+                 yerr=[100 * result.std_improve_ratio for result in result_preference_matrix[i]],
+                 fmt=plt_fmt[i], markersize=8, linewidth=3)
 # plt.plot(penalty_factor_arr, [100 * result.mean_improve_ratio for result in result_preference_matrix[1]], '-^', linewidth=3)
 # plt.plot(penalty_factor_arr, result_preference_matrix[2], '-*', linewidth=3)
-plt.legend(trace_legend, loc='lower center', fontsize=20)
+plt.legend(trace_legend, loc='lower right', fontsize=20)
 plt.xlabel('Penalty', fontsize=24)
 plt.xlim([0, 10])
 plt.xticks(penalty_factor_arr, fontsize=22)
 plt.ylabel('Improvement Ratio (%)', fontsize=24)
-# plt.ylim([-50, 20])
+plt.ylim([-100, 50])
 # plt.yticks(np.arange(-60, 50, 20), fontsize=22)
 plt.yticks(fontsize=22)
 plt.grid(linestyle='--', linewidth=0.2)

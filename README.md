@@ -104,7 +104,7 @@ round_transL = C_4 * len(cost_arr)
 
 FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore, we assign C_1, C_2, C_3, and C_4 to 1.
 
-## Result Summary
+## Preliminary Result
 
 Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses. Run ResultAnalysis/performance_summary.py, which outputs the below results. 
 
@@ -130,10 +130,15 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standar
 
 ## Penalty Study
 
-From the above table, we can see that there are several cases, e.g., (0, 0.5, 0, 0.5) that FedTuning leads to degraded performance. We apply penalty to mitigate its effect. Run Result/Analysis/penalty_performance.py to plot improvement ratio vs penalty factor
+From the above table, we can see that there are several cases, e.g., (0, 0.5, 0, 0.5), that FedTuning leads to degraded performance. 
+We explore whether penalty factor (>1) can help mitigate the negative cases.  Run ResultAnalysis/penalty_performance.py to plot performance vs penalty factor. 
+The below figure shows that the penalty factor is effective in avoiding bad degradation. We set the penalty factor to 10.
 
 <img src="Result/Image/penalty_performance.jpg" width="300" />
 
+## Overall Results
+
+We set the penalty factor to 10 and conduct more experiments. TODO...
 
 ## Result Visualization
 

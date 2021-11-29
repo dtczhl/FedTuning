@@ -140,6 +140,8 @@ The below figure shows that the penalty factor is effective in avoiding bad degr
 
 We set the penalty factor to 10 and conduct more experiments. TODO...
 
+.......................................
+
 ## Result Visualization
 
 Result visualization scripts are under ResultAnalysis/.

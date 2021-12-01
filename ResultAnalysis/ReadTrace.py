@@ -24,7 +24,11 @@ model_complexity = {
     'speech_command__resnet_10': (12466403, 79715),
     'speech_command__resnet_18': (26794211, 177155),
     'speech_command__resnet_26': (41122019, 274595),
-    'speech_command__resnet_34': (60119267, 515555)
+    'speech_command__resnet_34': (60119267, 515555),
+    'speech_command__vgg_11': (152334371, 9242787),
+    'speech_command__vgg_13': (228225059, 9427683),
+    'speech_command__vgg_16': (313266211, 14739939),
+    'speech_command__vgg_19': (398307363, 20052195)
 }
 
 

@@ -45,7 +45,7 @@ for i_preference, preference in enumerate(preference_arr):
             preference=preference, penalty=penalty, trace_id_arr=trace_id_arr, baseline=baseline)
         result_preference_matrix[i_preference][i_penalty] = trace_result
 
-plt.figure(1, figsize=(7, 5))
+plt.figure(1, figsize=(8, 5))
 for i in range(len(preference_arr)):
     plt.errorbar(penalty_factor_arr,
                  y=[100 * result.mean_improve_ratio for result in result_preference_matrix[i]],

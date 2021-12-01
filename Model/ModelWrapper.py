@@ -7,6 +7,7 @@
 import re
 
 from Model.ResNet import ResNet
+from Model.VGG import VGG
 from Dataset.speech_command import SPEECH_COMMAND_N_CLASS, SPEECH_COMMAND_N_INPUT_FEATURE
 
 
@@ -32,6 +33,9 @@ class ModelWrapper:
         if model_detail[0] == 'resnet':
             n_layers = int(model_detail[1])
             return ResNet(depth=n_layers, num_input_feature=n_input_feature, num_classes=n_target_class)
+        elif model_detail[0] == 'vgg':
+            n_layers = int(model_detail[1])
+            return VGG(depth=n_layers, num_input_feature=n_input_feature, num_classes=n_target_class)
         else:
             print(f'unknown model structure {model_detail[0]}')
             exit(-1)

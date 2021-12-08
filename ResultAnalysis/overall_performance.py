@@ -10,6 +10,7 @@ from pathlib import Path
 import copy
 import argparse
 
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 
@@ -71,36 +72,43 @@ for preference in preference_combine_all:
             dataset_name=dataset_name, model_name=model_name, initial_M=initial_M, initial_E=initial_E,
             preference=preference, penalty=penalty, trace_id_arr=trace_id_arr, baseline=baseline)
         map_key = np.append(preference, [penalty])
-        result_map[tuple(preference)] = trace_result
+        result_map[tuple(map_key)] = trace_result
 
-# For ReadMe format
-markdown_message = '| alpha | beta | gamma | delta | penalty | trace id | CompT (10^12) | TransT (10^6) | CompL (10^12) | TransL (10^6) | Final M | Final E | Overall |\n'
-markdown_message += '| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |\n'
+result_compare_mean = np.zeros((len(preference_combine_all), 2))
+result_compare_std = np.zeros((len(preference_combine_all), 2))
+for i_preference, preference in enumerate(preference_combine_all):
+    map_key_left = tuple(np.append(preference, [penalty_arr[0]]))
+    map_key_right = tuple(np.append(preference, [penalty_arr[1]]))
+    result_compare_mean[i_preference, 0] = result_map[map_key_left].mean_improve_ratio
+    result_compare_mean[i_preference, 1] = result_map[map_key_right].mean_improve_ratio
+    result_compare_std[i_preference, 0] = result_map[map_key_left].std_improve_ratio
+    result_compare_std[i_preference, 1] = result_map[map_key_right].std_improve_ratio
 
-markdown_message += f'| - | - | - | - | - | {trace_id_arr} | ' \
-                    f'{baseline.mean_system[0] / 10 ** 12:.2f} ({baseline.std_system[0] / 10 ** 12:.2f}) | ' \
-                    f'{baseline.mean_system[1] / 10 ** 6:.2f} ({baseline.std_system[1] / 10 ** 6:.2f}) | ' \
-                    f'{baseline.mean_system[2] / 10 ** 12:.2f} ({baseline.std_system[2] / 10 ** 12:.2f}) | ' \
-                    f'{baseline.mean_system[3] / 10 ** 6:.2f} ({baseline.std_system[3] / 10 ** 6:.2f}) | ' \
-                    f'{baseline.mean_final_M:.2f} ({baseline.std_final_M:.2f}) | ' \
-                    f'{baseline.mean_final_E:.2f} ({baseline.std_final_E:.2f}) | - |\n'
-
+plt.figure(1, figsize=(12, 8))
+x = np.arange(len(preference_combine_all))
+x_tick_labels = []
 for preference in preference_combine_all:
+    x_tick_labels.append(str(preference))
+bar_width = 0.40
+plt.bar(x-bar_width/2, 100*result_compare_mean[:, 0], width=0.9*bar_width)
+plt.bar(x+bar_width/2, 100*result_compare_mean[:, 1], width=0.9*bar_width)
+plt.ylabel('Improvement Ratio (%)', fontsize=24)
+plt.xlabel('Training Preference', fontsize=24)
+plt.yticks(fontsize=22)
+plt.xticks(x, labels=x_tick_labels, rotation=270, fontsize=18)
+plt.legend(['No penalty', 'Penalty factor = 10'], loc='lower left', fontsize=20)
+plt.errorbar(x-bar_width/2, 100*result_compare_mean[:, 0], yerr=100*result_compare_std[:, 0], capsize=5, ecolor='k', elinewidth=2, ls='none')
+plt.errorbar(x+bar_width/2, 100*result_compare_mean[:, 1], yerr=100*result_compare_std[:, 1], capsize=5, ecolor='k', elinewidth=2, ls='none')
+plt.grid(linestyle='--', linewidth=0.2)
+plt.tight_layout()
+image_filename = 'overall_performance.jpg'
+image_path = f'{project_dir}/Result/Image/{image_filename}'
+print(f'saving image to {image_path}')
+plt.savefig(image_path)
+plt.show()
 
-    preference = tuple(preference)
-    traces_result = result_map[preference]
+print(f'Mean (std): '
+      f'{100*np.mean(result_compare_mean[:, 0]):.2f}% ({100*np.mean(result_compare_std[:, 0]):.2f}%) '
+      f'vs. {100*np.mean(result_compare_mean[:, 1]):.2f}% ({100*np.mean(result_compare_std[:, 1]):.2f}%)')
 
-    markdown_message += f'| {preference[0]} | {preference[1]} | {preference[2]} | {preference[3]} | {penalty} | {trace_id_arr} | ' \
-                            f'{traces_result.mean_system[0]/10**12:.2f} ({traces_result.std_system[0]/10**12:.2f}) | ' \
-                            f'{traces_result.mean_system[1]/10**6:.2f} ({traces_result.std_system[1]/10**6:.2f}) | ' \
-                            f'{traces_result.mean_system[2]/10**12:.2f} ({traces_result.std_system[2]/10**12:.2f}) | ' \
-                            f'{traces_result.mean_system[3]/10**6:.2f} ({traces_result.std_system[3]/10**6:.2f}) | ' \
-                            f'{traces_result.mean_final_M:.2f} ({traces_result.std_final_M:.2f}) | ' \
-                            f'{traces_result.mean_final_E:.2f} ({traces_result.std_final_E:.2f}) | ' \
-                            f'{np.format_float_positional(100*traces_result.mean_improve_ratio, precision=2, sign=True)}% ' \
-                            f'({100*traces_result.std_improve_ratio:.2f}%) |\n'
-
-
-print('\n ------ Below for ReadMe ------\n')
-print(markdown_message)
 

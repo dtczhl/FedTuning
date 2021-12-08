@@ -138,9 +138,14 @@ The below figure shows that the penalty factor is effective in avoiding bad degr
 
 ## Overall Results
 
-We set the penalty factor to 10 and conduct more experiments. TODO...
+We set the penalty factor to 10 and conduct more experiments for the speech-to-command dataset. 
+Below shows the results. As we can see, our penalty mechanism (penalty factor of 10) increases the performance from +17.97% (std: 14.14) to +22.48% (7.77%), showing the effectiveness of our penalty mechanism. 
 
-.......................................
+<img src="Result/Image/overall_performance.jpg" width="400" />
+
+## Other Datasets and Models
+
+TODO...
 
 ## Result Visualization
 

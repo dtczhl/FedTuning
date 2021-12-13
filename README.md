@@ -10,7 +10,6 @@ Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please 
 }
 ```
 
-**Note**: we re-design our algorithm, which shows better results. We will update our arXiv paper ASAP.
 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
@@ -167,9 +166,3 @@ Improvement | Penalty | Trajectory
 -3.18% | 8 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_8_00__1.jpg" width="200" />
 +10.07% | 9 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_9_00__1.jpg" width="200" />
 +17.43% | 10 | <img src="Result/Image/fedtuning_True__speech_command__resnet_10__M_20__E_20_00__alpha_0_00__beta_0_50__gamma_0_00__delta_0_50__penalty_10_00__1.jpg" width="200" />
-
-### Study of Penalty Factor
-
-penalty_performance.py: plot improvement ratio vs penalty
-
-<img src="Result/Image/penalty_performance.jpg" width="300" />

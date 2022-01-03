@@ -205,6 +205,6 @@ def read_trace(trace_info):
 
 if __name__ == '__main__':
 
-    info = (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1)
+    info = (True, 'speech_command', 'resnet_10', 20, 20, 0.25, 0.25, 0.25, 0.25, 1, 1)
     file_stat = read_trace(trace_info=info)
     print(file_stat)

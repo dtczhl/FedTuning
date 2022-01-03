@@ -101,7 +101,7 @@ round_compL = C_3 * sum(cost_arr)
 round_transL = C_4 * len(cost_arr)
 ```
 
-FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore, we assign C_1, C_2, C_3, and C_4 to 1.
+FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore,  C_1, C_2, C_3, and C_4 do not matter.
 
 ## Preliminary Result
 

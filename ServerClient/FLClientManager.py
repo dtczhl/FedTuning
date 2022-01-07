@@ -16,6 +16,8 @@ from Dataset import *
 from Dataset.speech_command import *
 from Dataset.speech_command.SpeechCommandForValid import SpeechCommandForValid
 from Dataset.speech_command.SpeechCommandForTest import SpeechCommandForTest
+from Dataset.emnist import *
+from Dataset.emnist.EmnistForTest import EmnistForTest
 
 from Model.ModelWrapper import ModelWrapper
 from ServerClient import *
@@ -42,18 +44,18 @@ class FLClientManager:
 
         self.dataset_name = dataset_name.strip().lower()
         if self.dataset_name == 'speech_command':
-
             client_ids = os.listdir(os.path.join(DATASET_SPEECH_COMMAND_DIR, 'train'))
-
-            for client_id in client_ids:
-                client_model = ModelWrapper.build_model_for_dataset(model_name=model_name, dataset_name=dataset_name)
-                client = FLClient(client_id=client_id, client_model=client_model, dataset_name=dataset_name,
-                                  gpu_device=self.gpu_device)
-                self.all_clients[client_id] = client
-
+        elif self.dataset_name == 'emnist':
+            client_ids = os.listdir(os.path.join(DATASET_EMNIST_DIR, 'train'))
         else:
             print(f'unknown dataset_name {dataset_name}')
             exit(-1)
+
+        for client_id in client_ids:
+            client_model = ModelWrapper.build_model_for_dataset(model_name=model_name, dataset_name=dataset_name)
+            client = FLClient(client_id=client_id, client_model=client_model, dataset_name=dataset_name,
+                              gpu_device=self.gpu_device)
+            self.all_clients[client_id] = client
 
     def __user_check(self, *, client_id: str) -> None:
         """ If the user_id is not in the clients, print error and exit
@@ -195,6 +197,34 @@ class FLClientManager:
                 dataset = SpeechCommandForTest()
                 dataloader = DataLoader(dataset, batch_size=SPEECH_COMMAND_DATASET_TEST_BATCH_SIZE, shuffle=False,
                                         num_workers=SPEECH_COMMAND_DATASET_TEST_N_WORKER)
+                for inputs, labels in dataloader:
+                    inputs, labels = inputs.to(self.gpu_device), labels.to(self.gpu_device)
+                    outputs = server_model(inputs)
+
+                    _, predicted = torch.max(outputs.data, 1)
+
+                    labels = labels.detach().cpu().numpy()
+                    predicted = predicted.detach().cpu().numpy()
+
+                    _n_correct = (predicted == labels).sum().item()
+                    n_correct += _n_correct
+                    n_incorrect += len(inputs) - _n_correct
+
+            server_model.to(self.cpu_device)
+
+            return n_correct / (n_correct + n_incorrect)
+
+        elif self.dataset_name == "emnist":
+
+            n_correct = 0
+            n_incorrect = 0
+
+            assert include_test
+
+            if include_test:
+                dataset = EmnistForTest()
+                dataloader = DataLoader(dataset, batch_size=EMNIST_DATASET_TEST_BATCH_SIZE, shuffle=False,
+                                        num_workers=EMNIST_DATASET_TEST_N_WORKER)
                 for inputs, labels in dataloader:
                     inputs, labels = inputs.to(self.gpu_device), labels.to(self.gpu_device)
                     outputs = server_model(inputs)

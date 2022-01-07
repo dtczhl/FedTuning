@@ -1,0 +1,31 @@
+# number of classes
+EMNIST_N_CLASS = 62
+
+# number of input channel
+EMNIST_N_INPUT_FEATURE = 1
+
+# input sizes.
+EMNIST_INPUT_RESIZE = (28, 28)
+
+# top-1 accuracy
+EMNIST_N_TOP_CLASS = 1
+
+# learning rate and momentum
+EMNIST_LEARNING_RATE = 0.01
+EMNIST_MOMENTUM = 0.9
+
+# train mean and std, need change
+EMNIST_TRAIN_MEAN = 0.17685325354307277
+EMNIST_TRAIN_STD = 0.3283675627372856
+
+# test mean and std
+EMNIST_TEST_MEAN = 0.17641518033197115
+EMNIST_TEST_STD = 0.3279303292332604
+
+# for dataloader: batch_size and n_worker
+EMNIST_DATASET_TRAIN_BATCH_SIZE = 10
+EMNIST_DATASET_TRAIN_N_WORKER = 5
+
+# for testing
+EMNIST_DATASET_TEST_BATCH_SIZE = 1000
+EMNIST_DATASET_TEST_N_WORKER = 10

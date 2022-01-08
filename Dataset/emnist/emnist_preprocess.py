@@ -1,7 +1,11 @@
 """
     Pre-process EMNIST dataset
 
+<<<<<<< HEAD
     Preprocessed data are saved to Download/emnist/
+=======
+    Preprocessed data are saved to Download/emnist/_FedTuning/
+>>>>>>> origin/main
 """
 
 import os
@@ -12,16 +16,22 @@ import re
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy.io
+<<<<<<< HEAD
 from PIL import Image
+=======
+>>>>>>> origin/main
 
 
 # dataset name
 dataset_name = 'emnist'
 
+<<<<<<< HEAD
 # split ratio of train vs test
 split_train_test = 0.7
 np.random.seed(321)
 
+=======
+>>>>>>> origin/main
 # absolute path to FedTuning/Download/
 download_dir = os.path.join(pathlib.Path(__file__).resolve().parents[2], 'Download')
 
@@ -31,6 +41,7 @@ if not os.path.isdir(dataset_dir):
     print(f'Error: dataset directory {dataset_dir} does not exist')
     exit(-1)
 
+<<<<<<< HEAD
 train_dir = os.path.join(dataset_dir, 'train')
 test_dir = os.path.join(dataset_dir, 'test')
 if os.path.isdir(train_dir):
@@ -82,3 +93,20 @@ for i_img in range(n_img_tot):
 os.system(f'rm {dataset_file}')
 
 print('Done!')
+=======
+dataset_file = os.path.join(dataset_dir, 'emnist-byclass.mat')
+dataset_mat = scipy.io.loadmat(dataset_file)
+
+# images
+print(dataset_mat['dataset'][0][0][0][0][0][0].shape)
+print(len(np.unique(dataset_mat['dataset'][0][0][0][0][0][1])))
+print(len(np.unique(dataset_mat['dataset'][0][0][0][0][0][2])))
+
+img1 = dataset_mat['dataset'][0][0][0][0][0][0][10]
+img1 = np.array(img1)
+img1 = np.reshape(img1, (28, 28), order='F')
+plt.imshow(img1, cmap='gray')
+plt.show()
+
+print(dataset_mat['dataset'][0][0][0][0][0][1][10])
+>>>>>>> origin/main

@@ -31,7 +31,7 @@ class EmnistCR(nn.Module):
         out = self.dense1(out)
         out = self.dropout2(out)
         out = self.dense2(out)
-        out = F.softmax(out)
+        # out = F.softmax(out, dim=1)
         return out
 
 

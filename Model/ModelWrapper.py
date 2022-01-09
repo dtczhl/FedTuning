@@ -9,6 +9,7 @@ import re
 from Model.ResNet import ResNet
 from Model.VGG import VGG
 from Model.EmnistCR import EmnistCR
+from Model.LogisticRegression import LogisticRegression
 
 from Dataset.speech_command import SPEECH_COMMAND_N_CLASS, SPEECH_COMMAND_N_INPUT_FEATURE
 from Dataset.emnist import EMNIST_N_CLASS, EMNIST_N_INPUT_FEATURE
@@ -44,6 +45,8 @@ class ModelWrapper:
             return VGG(depth=n_layers, num_input_feature=n_input_feature, num_classes=n_target_class)
         elif model_detail[0] == 'emnistcr':
             return EmnistCR(depth=-1, num_input_feature=n_input_feature, num_classes=n_target_class)
+        elif model_detail[0] == 'logisticregression':
+            return LogisticRegression(depth=-1, num_input_feature=n_input_feature, num_classes=n_target_class)
         else:
             print(f'unknown model structure {model_detail[0]}')
             exit(-1)

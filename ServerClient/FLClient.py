@@ -13,6 +13,8 @@ from torch.nn.parameter import Parameter
 from Dataset import *
 from Dataset.speech_command import *
 from Dataset.speech_command.SpeechCommandForTrain import SpeechCommandForTrain
+from Dataset.emnist import *
+from Dataset.emnist.EmnistForTrain import EmnistForTrain
 
 
 class FLClient:
@@ -56,6 +58,19 @@ class FLClient:
             if self._client_model is not None:
                 self._optimizer = optim.SGD(client_model.parameters(), lr=SPEECH_COMMAND_LEARNING_RATE,
                                             momentum=SPEECH_COMMAND_MOMENTUM)
+                self._criterion = nn.CrossEntropyLoss()
+
+        elif dataset_name == 'emnist':
+
+            user_dir = f'{DATASET_DIR}/emnist/train/{client_id}'
+            self._dataset = EmnistForTrain(user_dir=user_dir)
+            self._dataloader = DataLoader(self._dataset, batch_size=EMNIST_DATASET_TRAIN_BATCH_SIZE,
+                                          shuffle=True, num_workers=EMNIST_DATASET_TRAIN_N_WORKER)
+
+            # training construction
+            if self._client_model is not None:
+                self._optimizer = optim.SGD(client_model.parameters(), lr=EMNIST_LEARNING_RATE,
+                                            momentum=EMNIST_MOMENTUM)
                 self._criterion = nn.CrossEntropyLoss()
 
         else:

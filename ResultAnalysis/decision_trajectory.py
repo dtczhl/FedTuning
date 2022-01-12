@@ -10,6 +10,7 @@ from pathlib import Path
 import copy
 import argparse
 import re
+import math
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ from ResultAnalysis.ReadTrace import read_trace
 # ------ Configurations ------
 
 # enable, dataset name, model name, initial M, initial E, alpha, beta, gamma, delta, penalty, trace id
-trace_info = (True, 'speech_command', 'resnet_10', 20, 20, 0, 0.5, 0, 0.5, 6, 1)
+trace_info = (False, 'speech_command', 'resnet_10', 20, 20, 0, 0, 0, 0, 1, 1)
 
 
 # --- End of Configuration ---
@@ -45,18 +46,19 @@ E_trajectory = trace_matrix[:, 11]
 alpha, beta, gamma, delta = trace_info[5:9]
 penalty = trace_info[9]
 
-plt.figure(1, figsize=(6, 5))
+plt.figure(1, figsize=(12, 10))
+# plt.figure(1, figsize=(6, 5))
 X_list = np.arange(len(M_trajectory))
 plt.plot(X_list, M_trajectory, '-o', linewidth=3)
 plt.plot(X_list, E_trajectory, '-^', linewidth=3)
-plt.legend(['#participant', '#training pass'], loc='best', fontsize=22)
+plt.legend(['#participant', '#training pass'], loc='best', fontsize=30, ncol=2)
 plt.xlim([0, max(X_list)])
-plt.xlabel('Training round', fontsize=24)
-plt.xticks(fontsize=22)
-plt.ylabel('', fontsize=24)
-plt.yticks(fontsize=22)
-plt.grid(linestyle='--', linewidth=0.2)
-plt.title(f'({alpha}, {beta}, {gamma}, {delta}), penalty={penalty}', fontsize=20)
+# plt.xlabel('Training round', fontsize=24)
+# plt.ylabel(fontsize=24)
+plt.xticks(fontsize=40)
+plt.yticks(fontsize=40)
+plt.grid(linestyle='--', linewidth=1)
+# plt.title(f'({alpha}, {beta}, {gamma}, {delta}), penalty={penalty}', fontsize=20)
 plt.tight_layout()
 image_filename = re.split('\.', filename)[0] + '.jpg'
 image_path = f'{project_dir}/Result/Image/{image_filename}'

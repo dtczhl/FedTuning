@@ -23,15 +23,15 @@ class EmnistCR(nn.Module):
         self.dense2 = nn.Linear(in_features=128, out_features=num_classes)
 
     def forward(self, x):
-        out = self.conv1(x)
+        out = F.relu(self.conv1(x))
         out = F.relu(self.conv2(out))
         out = self.maxpool1(out)
-        out = self.dropout1(out)
+        # out = self.dropout1(out)
         out = self.flatten1(out)
         out = self.dense1(out)
-        out = self.dropout2(out)
+        # out = self.dropout2(out)
         out = self.dense2(out)
-        # out = F.softmax(out, dim=1)
+        out = F.softmax(out, dim=1)
         return out
 
 

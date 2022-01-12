@@ -28,7 +28,8 @@ model_complexity = {
     'speech_command__vgg_11': (152334371, 9242787),
     'speech_command__vgg_13': (228225059, 9427683),
     'speech_command__vgg_16': (313266211, 14739939),
-    'speech_command__vgg_19': (398307363, 20052195)
+    'speech_command__vgg_19': (398307363, 20052195),
+    'emnist__logisticregression': (48670, 48670)
 }
 
 

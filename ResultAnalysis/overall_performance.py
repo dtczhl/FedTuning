@@ -84,7 +84,7 @@ for i_preference, preference in enumerate(preference_combine_all):
     result_compare_std[i_preference, 0] = result_map[map_key_left].std_improve_ratio
     result_compare_std[i_preference, 1] = result_map[map_key_right].std_improve_ratio
 
-plt.figure(1, figsize=(12, 8))
+plt.figure(1, figsize=(12, 6))
 x = np.arange(len(preference_combine_all))
 x_tick_labels = []
 for preference in preference_combine_all:
@@ -92,7 +92,7 @@ for preference in preference_combine_all:
 bar_width = 0.40
 plt.bar(x-bar_width/2, 100*result_compare_mean[:, 0], width=0.9*bar_width)
 plt.bar(x+bar_width/2, 100*result_compare_mean[:, 1], width=0.9*bar_width)
-plt.ylabel('Improvement Ratio (%)', fontsize=24)
+plt.ylabel('Ratio (%)', fontsize=24)
 plt.xlabel('Training Preference', fontsize=24)
 plt.yticks(fontsize=22)
 plt.xticks(x, labels=x_tick_labels, rotation=270, fontsize=18)

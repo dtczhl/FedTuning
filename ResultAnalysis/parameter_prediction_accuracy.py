@@ -34,7 +34,8 @@ model_complexity = {
     'speech_command__resnet_10': (12466403, 79715),
     'speech_command__resnet_18': (26794211, 177155),
     'speech_command__resnet_26': (41122019, 274595),
-    'speech_command__resnet_34': (60119267, 515555)
+    'speech_command__resnet_34': (60119267, 515555),
+    'emnist_logisticregression': (48670, 48670)
 }
 
 trace_matrix, filename = read_trace(trace_info=trace_info)

@@ -8,3 +8,6 @@ DATASET_SPEECH_COMMAND_DIR = os.path.join(DATASET_DIR, 'speech_command/_FedTunin
 
 # emnist
 DATASET_EMNIST_DIR = os.path.join(DATASET_DIR, 'emnist')
+
+# emnist
+DATASET_CIFAR100_DIR = os.path.join(DATASET_DIR, 'cifar100')

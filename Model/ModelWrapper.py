@@ -13,6 +13,7 @@ from Model.LogisticRegression import LogisticRegression
 
 from Dataset.speech_command import SPEECH_COMMAND_N_CLASS, SPEECH_COMMAND_N_INPUT_FEATURE
 from Dataset.emnist import EMNIST_N_CLASS, EMNIST_N_INPUT_FEATURE
+from Dataset.cifar100 import CIFAR100_N_CLASS, CIFAR100_N_INPUT_FEATURE
 
 
 class ModelWrapper:
@@ -31,6 +32,9 @@ class ModelWrapper:
         elif dataset_name == 'emnist':
             n_target_class = EMNIST_N_CLASS
             n_input_feature = EMNIST_N_INPUT_FEATURE
+        elif dataset_name == 'cifar100':
+            n_target_class = CIFAR100_N_CLASS
+            n_input_feature = CIFAR100_N_INPUT_FEATURE
         else:
             print(f'unknown dataset_name {dataset_name}')
             exit(-1)

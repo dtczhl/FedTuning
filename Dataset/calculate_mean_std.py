@@ -13,7 +13,7 @@ from Dataset import DATASET_DIR
 from Dataset.emnist import *
 
 
-target_dir = 'emnist/test'
+target_dir = 'cifar100/test'
 
 user_dir = os.path.join(DATASET_DIR, target_dir)
 all_users = os.listdir(user_dir)
@@ -27,7 +27,8 @@ for i_user, user in enumerate(all_users):
     print(f'{i_user} / {len(all_users)}')
     image_files = glob.glob(os.path.join(user_dir, user, '*.jpg'))
     for image_file in image_files:
-        im = np.array(Image.open(image_file).convert('L')) / 255.0
+        # im = np.array(Image.open(image_file).convert('L')) / 255.0  # for grayscale
+        im = np.array(Image.open(image_file).convert('RGB'))[:, :, 2] / 255.0   # for rgb
         for row in im:
             for pixel in row:
                 n += 1

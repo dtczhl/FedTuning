@@ -15,6 +15,8 @@ from Dataset.speech_command import *
 from Dataset.speech_command.SpeechCommandForTrain import SpeechCommandForTrain
 from Dataset.emnist import *
 from Dataset.emnist.EmnistForTrain import EmnistForTrain
+from Dataset.cifar100 import *
+from Dataset.cifar100.Cifar100ForTrain import Cifar100ForTrain
 
 
 class FLClient:
@@ -71,6 +73,19 @@ class FLClient:
             if self._client_model is not None:
                 self._optimizer = optim.SGD(client_model.parameters(), lr=EMNIST_LEARNING_RATE,
                                             momentum=EMNIST_MOMENTUM)
+                self._criterion = nn.CrossEntropyLoss()
+
+        elif dataset_name == 'cifar100':
+
+            user_dir = f'{DATASET_DIR}/cifar100/train/{client_id}'
+            self._dataset = Cifar100ForTrain(user_dir=user_dir)
+            self._dataloader = DataLoader(self._dataset, batch_size=CIFAR100_DATASET_TRAIN_BATCH_SIZE,
+                                          shuffle=True, num_workers=CIFAR100_DATASET_TRAIN_N_WORKER)
+
+            # training construction
+            if self._client_model is not None:
+                self._optimizer = optim.SGD(client_model.parameters(), lr=CIFAR100_LEARNING_RATE,
+                                            momentum=CIFAR100_MOMENTUM)
                 self._criterion = nn.CrossEntropyLoss()
 
         else:

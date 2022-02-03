@@ -21,7 +21,7 @@ dataset_name = 'cifar100'
 
 img_shape = (32, 32)
 
-n_user_img = 100
+n_user_img = 50
 np.random.seed(321)
 
 # absolute path to FedTuning/Download/
@@ -60,7 +60,6 @@ os.system(f'mkdir {train_dir}')
 if os.path.isdir(test_dir):
     os.system(f'rm -rf {test_dir}')
 os.system(f'mkdir {test_dir}')
-
 
 n_train_user = int(len(train_label) / n_user_img)
 for i_user in range(n_train_user):

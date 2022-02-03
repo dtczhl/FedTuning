@@ -11,7 +11,7 @@ CIFAR100_INPUT_RESIZE = (32, 32)
 CIFAR100_N_TOP_CLASS = 1
 
 # learning rate and momentum
-CIFAR100_LEARNING_RATE = 0.01
+CIFAR100_LEARNING_RATE = 0.1
 CIFAR100_MOMENTUM = 0.9
 
 # train mean and std, need change

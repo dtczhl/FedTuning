@@ -12,7 +12,7 @@
       <paths name="dtczhl@barbel.cs.ucdavis.edu:2222 password">
         <serverdata>
           <mappings>
-            <mapping deploy="/home/dtczhl/FedTuning" local="$PROJECT_DIR$" />
+            <mapping deploy="/FedTuningNew" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>

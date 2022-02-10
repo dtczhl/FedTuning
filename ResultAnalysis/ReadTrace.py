@@ -30,7 +30,8 @@ model_complexity = {
     'speech_command__vgg_16': (313266211, 14739939),
     'speech_command__vgg_19': (398307363, 20052195),
     'emnist__logisticregression': (169662, 169662),
-    'cifar100__resnet_10': (12765540, 84228)
+    'cifar100__resnet_10': (12765540, 84228),
+    'cifar100__resnet_18': (27093348, 181668)
 }
 
 

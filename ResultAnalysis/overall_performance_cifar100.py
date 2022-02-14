@@ -23,7 +23,7 @@ model_name = 'resnet_10'
 initial_M = 20
 initial_E = 20
 penalty_arr = [10]
-trace_id_arr = [1, 2]
+trace_id_arr = [1, 2, 3]
 
 # --- End of Configuration ---
 

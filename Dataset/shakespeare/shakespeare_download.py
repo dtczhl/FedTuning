@@ -36,7 +36,7 @@ leaf_shakespeare_dir = os.path.join(leaf_dir, 'data/shakespeare')
 os.chdir(leaf_shakespeare_dir)
 
 # download
-os.system('./preprocess.sh -s niid -sf 1.0 -k 0 -t user --tf 0.8')
+os.system('./preprocess.sh -s niid -sf 1.0 -k 0 -t user --tf 0.8 --smplseed 123 --spltseed 123')
 
 # move data for training and testing
 print(f'mv {leaf_shakespeare_dir}/data/train/all_data_0_1_keep_0_train_8.json {dataset_dir}/')

@@ -52,7 +52,7 @@ if __name__ == '__main__':
     # For debugging purpose
     print(f'--- Debugging {__file__}')
 
-    one_user_dir = f'{DATASET_DIR}/shakespeare/train/TWELFTH_NIGHT__OR__WHAT_YOU_WILL_SECOND_OFFICER'
+    one_user_dir = f'{DATASET_DIR}/shakespeare/train/TWELFTH_NIGHT__OR__WHAT_YOU_WILL_ANTONIO'
     print(f'\t--- One user dir: {one_user_dir}')
 
     one_user_data = ShakespeareForTrain(user_dir=one_user_dir)

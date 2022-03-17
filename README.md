@@ -1,15 +1,5 @@
-# FedTuning
-Source code for our paper [FedTuning](https://arxiv.org/abs/2110.03061). Please consider citing our paper if our paper and codes are helpful to you.
-
-```
-@article{fedtuning,
-    author = {Huanle Zhang and Mi Zhang and Xin Liu and Prasant Mohapatra and Michael DeLucia},
-    title = {Automatic Tuning of Federated Learning Hyper-Parameters from System Perspective},
-    journal = {arXiv:2110.03061},
-    year = {2021}
-}
-```
-
+# FedTune
+Source code for FedTune: Automatic Tuning of Federated Learning Hyper-Parameters from System Perspective, Under Review
 
 Codes are tested on (1) Ubuntu 18.04 with a 32GB Tesla V100 GPU, cuda:11.4, and (2) Ubuntu 20.04 with 24GB Nvidia RTX A5000 GPUs, cuda:11.3.
 Both use PyTorch 1.9.1 and Python 3.9.
@@ -19,8 +9,19 @@ Require following packages
 pytorch, matplotlib, scikit-image, librosa, pandas
 ```
 
+## Code Structure
+
+* Federated Learning workflow is in `FedTuning/main.py`.
+* FedTune-specified code is in `FedTuning/FedTuningTuner.py`.
+* Experiment traces are saved to `Result/`, and result analysis scripts are in `ResultAnalysis`. 
 
 ## Dataset Download and Preprocess
+
+We adopt the same procedure for dataset. Refer to `Dataset/` folder
+1. download dataset: `[dataset_name]_download.py`
+2. preprocess dataset: `[dataset_name]_preprocess.py`
+
+Below is the example for the Google speech-to-command dataset
 
 ### Google speech-to-command dataset
 
@@ -40,13 +41,10 @@ pytorch, matplotlib, scikit-image, librosa, pandas
 
 Model hyper-parameters such as learning rate and batch size are defined Dataset/speech_command/\_\_init\_\_.py
 
-### Other datasets
-
-TODO
 
 ## Experiments
 
-The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
+The algorithm of FedTune is in FedTuning/FedTuningTuner.py
 
 1. FL training with FedTuning enabled
     ```python:
@@ -58,13 +56,13 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
    * --beta: preference on transmission time (TransT)
    * --gamma: preference on computation load (CompL)
    * --delta: preference on transmission load (TransL)
-   * --model: model name. Supported models are under Model/. More models will be supported.
+   * --model: model name. Supported models are under Model/
    * --target_model_accuracy. Stop training when trained model has accuracy higher than the target accuracy
-   * --dataset: dataset name. Now only support speech_command, more dataset will be supported
+   * --dataset: dataset name. 
    * --n_participant: number of participants (M)
    * --n_training_pass: number of training passes (E)
 
-2. FL training without FedTuning
+2. FL training with FedTune disabled
     ```python:
     python FedTuning/main.py --enable_fedtuning False --model resnet_10 --target_model_accuracy 0.8 --n_participant 20 --n_training_pass 20 --dataset speech_command
     ```
@@ -79,7 +77,7 @@ The algorithm of FedTuning is in FedTuning/FedTuningTuner.py
 3. Optional arguments
    * --n_consecutive_better: number of trained model is consecutively better than the target accuracy before stop training. Default 5.
    * --trace_id: trace id. Default 1.
-   * --penalty: penalty factor when bad decision occurs. Still testing the usefulness of it. Default 1.
+   * --penalty: penalty factor when bad decision occurs. Default 1.
 
 Results are saved to Result/. See the running output for the full filename. Results are saved in CSV files, in the format of
 ```plain
@@ -101,9 +99,9 @@ round_compL = C_3 * sum(cost_arr)
 round_transL = C_4 * len(cost_arr)
 ```
 
-FedTuning does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios. Therefore,  C_1, C_2, C_3, and C_4 do not matter.
+FedTune does not depend on the absolute values of C_1, C_2, C_3, and C_4, as it is based on their respective ratios for tuning hyper-parameters. 
 
-## Preliminary Result
+## Example Results for the Google Speech-to-Command Dataset
 
 Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standard deviation in parentheses. Run ResultAnalysis/performance_summary.py, which outputs the below results. 
 
@@ -127,24 +125,20 @@ Google speech-to-command dataset. ResNet-10. Target model accuracy: 0.8. Standar
 | 0.0 | 0.33 | 0.33 | 0.33 | 1 | [1, 2, 3] | 3.08 (1.21) | 6.54 (0.90) | 12.92 (5.01) | 83.38 (11.40) | 11.33 (2.87) | 27.33 (8.73) | +1.14% (20.93) |
 | 0.25 | 0.25 | 0.25 | 0.25 | 1 | [1, 2, 3] | 1.70 (0.12) | 5.21 (0.54) | 11.45 (2.36) | 108.86 (12.89) | 22.67 (7.32) | 10.00 (2.45) | +9.20% (6.66) |
 
-## Penalty Study
+## Penalty Mechanism Study
 
-From the above table, we can see that there are several cases, e.g., (0, 0.5, 0, 0.5), that FedTuning leads to degraded performance. 
-We explore whether penalty factor (>1) can help mitigate the negative cases.  Run ResultAnalysis/penalty_performance.py to plot performance vs penalty factor. 
+Fedtune leverages the penalty factor (>1) to mitigate the negative cases.  Run ResultAnalysis/penalty_performance.py to plot performance vs penalty factor. 
 The below figure shows that the penalty factor is effective in avoiding bad degradation. We set the penalty factor to 10.
 
 <img src="Result/Image/penalty_performance.jpg" width="400" />
 
 ## Overall Results
 
-We set the penalty factor to 10 and conduct more experiments for the speech-to-command dataset. 
-Below shows the results. As we can see, our penalty mechanism (penalty factor of 10) increases the performance from +17.97% (std: 14.14) to +22.48% (7.77%), showing the effectiveness of our penalty mechanism. 
+We set the penalty factor to 10.
+Below shows the results for speech-to-command dataset. As we can see, our penalty mechanism (penalty factor of 10) increases the performance from +17.97% (std: 14.14) to +22.48% (7.77%), showing the effectiveness of our penalty mechanism. 
 
 <img src="Result/Image/overall_performance.jpg" width="500" />
 
-## Other Datasets and Models
-
-TODO...
 
 [//]: # (## Result Visualization)
 
